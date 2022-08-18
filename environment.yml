@@ -1,0 +1,16 @@
+name: fbench-env
+
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - pystac=1.6
+  - rasterio
+  - pyproj=3.3
+  - shapely
+  - geopandas
+  - jupyter
+  - pandas
+  - matplotlib
+  - python=3.9
