@@ -10,6 +10,8 @@ dependencies:
   - pyproj=3.3
   - shapely
   - geopandas
+  - folium
+  - earthengine-api
   - jupyter
   - pandas
   - matplotlib
