@@ -1,0 +1,57 @@
+{
+  "type": "Collection",
+  "id": "GFLandsat_V2",
+  "stac_version": "1.0.0",
+  "description": "GFLandsat V2 dataset for Oregon state",
+  "links": [
+    {
+      "rel": "root",
+      "href": "../catalog.json",
+      "type": "application/json",
+      "title": "STAC implementation for modelling and benchmarking forest attributes"
+    },
+    {
+      "rel": "item",
+      "href": "./109086_Gap_Filled_Landsat_CONUS_month_3_2019_v2/109086_Gap_Filled_Landsat_CONUS_month_3_2019_v2.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./109088_Gap_Filled_Landsat_CONUS_month_3_2019_v2/109088_Gap_Filled_Landsat_CONUS_month_3_2019_v2.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./108243_Gap_Filled_Landsat_CONUS_month_3_2019_v2/108243_Gap_Filled_Landsat_CONUS_month_3_2019_v2.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./108244_Gap_Filled_Landsat_CONUS_month_3_2019_v2/108244_Gap_Filled_Landsat_CONUS_month_3_2019_v2.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./109087_Gap_Filled_Landsat_CONUS_month_3_2019_v2/109087_Gap_Filled_Landsat_CONUS_month_3_2019_v2.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "parent",
+      "href": "../catalog.json",
+      "type": "application/json",
+      "title": "STAC implementation for modelling and benchmarking forest attributes"
+    }
+  ],
+  "stac_extensions": [],
+  "extent": {
+    "bbox": [
+      [
+        -119.43750126138885,
+        43.87499847881951,
+        -119.25000108499991,
+        44.3749981924306
+      ]
+    ]
+  },
+  "license": "proprietary"
+}

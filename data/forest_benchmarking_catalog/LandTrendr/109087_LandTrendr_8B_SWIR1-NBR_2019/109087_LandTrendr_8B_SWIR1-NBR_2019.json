@@ -1,0 +1,81 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "id": "109087_LandTrendr_8B_SWIR1-NBR_2019",
+  "properties": {
+    "eo:bands": [
+      {
+        "name": "ysd_swir1",
+        "common_name": "ysd_swir1"
+      },
+      {
+        "name": "mag_swir1",
+        "common_name": "mag_swir1"
+      },
+      {
+        "name": "dur_swir1",
+        "common_name": "dur_swir1"
+      },
+      {
+        "name": "rate_swir1",
+        "common_name": "rate_swir1"
+      },
+      {
+        "name": "ysd_nbr",
+        "common_name": "ysd_nbr"
+      },
+      {
+        "name": "mag_nbr",
+        "common_name": "mag_nbr"
+      },
+      {
+        "name": "dur_nbr",
+        "common_name": "dur_nbr"
+      },
+      {
+        "name": "rate_nbr",
+        "common_name": "rate_nbr"
+      }
+    ],
+    "datetime": "1984-06-28T18:06:23.159000Z"
+  },
+  "geometry": "{\"type\": \"Polygon\", \"coordinates\": [[[-119.25000108819435, 43.937498396822996], [-119.25000108819435, 43.99999831187511], [-119.31250104402771, 43.99999831187511], [-119.31250104402771, 43.937498396822996], [-119.25000108819435, 43.937498396822996]]]}",
+  "links": [
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json",
+      "title": "STAC implementation for modelling and benchmarking forest attributes"
+    },
+    {
+      "rel": "collection",
+      "href": "../collection.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "parent",
+      "href": "../collection.json",
+      "type": "application/json"
+    }
+  ],
+  "assets": {
+    "image": {
+      "href": "data/raw/LandTrendr/109087_LandTrendr_8B_SWIR1-NBR_2019/109087_LandTrendr_8B_SWIR1-NBR_2019-cog.tif",
+      "type": "image/tiff; application=geotiff; profile=cloud-optimized"
+    },
+    "metadata": {
+      "href": "data/raw/LandTrendr/109087_LandTrendr_8B_SWIR1-NBR_2019/109087_LandTrendr_8B_SWIR1-NBR_2019-metadata.json",
+      "type": "application/json"
+    }
+  },
+  "bbox": [
+    -119.31250104402771,
+    43.937498396822996,
+    -119.25000108819435,
+    43.99999831187511
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/eo/v1.0.0/schema.json"
+  ],
+  "collection": "LandTrendr"
+}

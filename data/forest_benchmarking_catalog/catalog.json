@@ -1,0 +1,31 @@
+{
+  "type": "Catalog",
+  "id": "forest_benchmarking",
+  "stac_version": "1.0.0",
+  "description": "STAC implementation for modelling and benchmarking forest attributes",
+  "links": [
+    {
+      "rel": "root",
+      "href": "./catalog.json",
+      "type": "application/json",
+      "title": "STAC implementation for modelling and benchmarking forest attributes"
+    },
+    {
+      "rel": "child",
+      "href": "./LandTrendr/collection.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "child",
+      "href": "./GFLandsat_V2/collection.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "child",
+      "href": "./forest_benchmarking-labels/collection.json",
+      "type": "application/json"
+    }
+  ],
+  "stac_extensions": [],
+  "title": "STAC implementation for modelling and benchmarking forest attributes"
+}
