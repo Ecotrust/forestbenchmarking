@@ -1,0 +1,29 @@
+{
+  "type": "Catalog",
+  "id": "forest_benchmarking",
+  "stac_version": "1.0.0",
+  "description": "\n        STAC implementation for data collection, transformation, and organization \n        for building and benchmarking models for predicting forest attributes based \n        on remotely-sensing, climatic, and geographic variables. \n        ",
+  "links": [
+    {
+      "rel": "root",
+      "href": "./catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "child",
+      "href": "./LandTrendr/collection.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "child",
+      "href": "./GFLandsat_V2/collection.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "child",
+      "href": "./forest_benchmarking-labels/collection.json",
+      "type": "application/json"
+    }
+  ],
+  "stac_extensions": []
+}
