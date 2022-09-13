@@ -109725,7 +109725,7 @@
   ],
   "assets": {
     "labels": {
-      "href": "data/external/labels/108244_stands_malheur-usfs_2009.geojson",
+      "href": "../data/external/labels/108244_stands_malheur-usfs_2009.geojson",
       "type": "application/geo+json"
     }
   },

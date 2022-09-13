@@ -55,7 +55,33 @@
     ],
     "datetime": "2019-03-15T00:00:00Z"
   },
-  "geometry": "{\"type\": \"Polygon\", \"coordinates\": [[[-119.37500115923605, 44.31249826022575], [-119.37500115923605, 44.3749981924306], [-119.43750122498258, 44.3749981924306], [-119.43750122498258, 44.31249826022575], [-119.37500115923605, 44.31249826022575]]]}",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -119.37500115923605,
+          44.31249826022575
+        ],
+        [
+          -119.37500115923605,
+          44.3749981924306
+        ],
+        [
+          -119.43750122498258,
+          44.3749981924306
+        ],
+        [
+          -119.43750122498258,
+          44.31249826022575
+        ],
+        [
+          -119.37500115923605,
+          44.31249826022575
+        ]
+      ]
+    ]
+  },
   "links": [
     {
       "rel": "root",
@@ -76,11 +102,11 @@
   ],
   "assets": {
     "image": {
-      "href": "data/raw/GFLandsat_V2/108243_Gap_Filled_Landsat_CONUS_month_3_2019_v2/108243_Gap_Filled_Landsat_CONUS_month_3_2019_v2-cog.tif",
+      "href": "../data/raw/GFLandsat_V2/108243_Gap_Filled_Landsat_CONUS_month_3_2019_v2/108243_Gap_Filled_Landsat_CONUS_month_3_2019_v2-cog.tif",
       "type": "image/tiff; application=geotiff; profile=cloud-optimized"
     },
     "metadata": {
-      "href": "data/raw/GFLandsat_V2/108243_Gap_Filled_Landsat_CONUS_month_3_2019_v2/108243_Gap_Filled_Landsat_CONUS_month_3_2019_v2-metadata.json",
+      "href": "../data/raw/GFLandsat_V2/108243_Gap_Filled_Landsat_CONUS_month_3_2019_v2/108243_Gap_Filled_Landsat_CONUS_month_3_2019_v2-metadata.json",
       "type": "application/json"
     }
   },
