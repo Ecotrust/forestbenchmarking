@@ -24,6 +24,11 @@
       "rel": "child",
       "href": "./forest_benchmarking-labels/collection.json",
       "type": "application/json"
+    },
+    {
+      "rel": "self",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/catalog.json",
+      "type": "application/json"
     }
   ],
   "stac_extensions": [],
