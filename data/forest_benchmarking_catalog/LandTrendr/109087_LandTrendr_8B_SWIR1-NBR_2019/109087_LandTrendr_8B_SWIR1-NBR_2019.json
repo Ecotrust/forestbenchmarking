@@ -86,7 +86,7 @@
   ],
   "assets": {
     "image": {
-      "href": "../data/raw/LandTrendr/109087_LandTrendr_8B_SWIR1-NBR_2019/109087_LandTrendr_8B_SWIR1-NBR_2019-cog.tif",
+      "href": "https://raw.githubusercontent.com/Ecotrust/forestbenchmarking/main/data/raw/LandTrendr/109087_LandTrendr_8B_SWIR1-NBR_2019/109087_LandTrendr_8B_SWIR1-NBR_2019-cog.tif",
       "type": "image/tiff; application=geotiff; profile=cloud-optimized"
     },
     "metadata": {
