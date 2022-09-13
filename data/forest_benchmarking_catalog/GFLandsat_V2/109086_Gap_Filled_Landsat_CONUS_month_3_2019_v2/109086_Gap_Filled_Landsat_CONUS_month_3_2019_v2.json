@@ -85,18 +85,23 @@
   "links": [
     {
       "rel": "root",
-      "href": "../../catalog.json",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/catalog.json",
       "type": "application/json",
       "title": "STAC implementation for modelling and benchmarking forest attributes"
     },
     {
       "rel": "collection",
-      "href": "../collection.json",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/GFLandsat_V2/collection.json",
       "type": "application/json"
     },
     {
       "rel": "parent",
-      "href": "../collection.json",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/GFLandsat_V2/collection.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "self",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/GFLandsat_V2/109086_Gap_Filled_Landsat_CONUS_month_3_2019_v2/109086_Gap_Filled_Landsat_CONUS_month_3_2019_v2.json",
       "type": "application/json"
     }
   ],

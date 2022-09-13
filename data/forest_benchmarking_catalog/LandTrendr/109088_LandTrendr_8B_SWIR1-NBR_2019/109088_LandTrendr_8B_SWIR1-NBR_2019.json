@@ -69,18 +69,23 @@
   "links": [
     {
       "rel": "root",
-      "href": "../../catalog.json",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/catalog.json",
       "type": "application/json",
       "title": "STAC implementation for modelling and benchmarking forest attributes"
     },
     {
       "rel": "collection",
-      "href": "../collection.json",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/LandTrendr/collection.json",
       "type": "application/json"
     },
     {
       "rel": "parent",
-      "href": "../collection.json",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/LandTrendr/collection.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "self",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/LandTrendr/109088_LandTrendr_8B_SWIR1-NBR_2019/109088_LandTrendr_8B_SWIR1-NBR_2019.json",
       "type": "application/json"
     }
   ],

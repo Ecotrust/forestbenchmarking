@@ -6,40 +6,45 @@
   "links": [
     {
       "rel": "root",
-      "href": "../catalog.json",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/catalog.json",
       "type": "application/json",
       "title": "STAC implementation for modelling and benchmarking forest attributes"
     },
     {
       "rel": "item",
-      "href": "./109086_LandTrendr_8B_SWIR1-NBR_2019/109086_LandTrendr_8B_SWIR1-NBR_2019.json",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/LandTrendr/109086_LandTrendr_8B_SWIR1-NBR_2019/109086_LandTrendr_8B_SWIR1-NBR_2019.json",
       "type": "application/json"
     },
     {
       "rel": "item",
-      "href": "./109088_LandTrendr_8B_SWIR1-NBR_2019/109088_LandTrendr_8B_SWIR1-NBR_2019.json",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/LandTrendr/109088_LandTrendr_8B_SWIR1-NBR_2019/109088_LandTrendr_8B_SWIR1-NBR_2019.json",
       "type": "application/json"
     },
     {
       "rel": "item",
-      "href": "./109087_LandTrendr_8B_SWIR1-NBR_2019/109087_LandTrendr_8B_SWIR1-NBR_2019.json",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/LandTrendr/109087_LandTrendr_8B_SWIR1-NBR_2019/109087_LandTrendr_8B_SWIR1-NBR_2019.json",
       "type": "application/json"
     },
     {
       "rel": "item",
-      "href": "./108243_LandTrendr_8B_SWIR1-NBR_2019/108243_LandTrendr_8B_SWIR1-NBR_2019.json",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/LandTrendr/108243_LandTrendr_8B_SWIR1-NBR_2019/108243_LandTrendr_8B_SWIR1-NBR_2019.json",
       "type": "application/json"
     },
     {
       "rel": "item",
-      "href": "./108244_LandTrendr_8B_SWIR1-NBR_2019/108244_LandTrendr_8B_SWIR1-NBR_2019.json",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/LandTrendr/108244_LandTrendr_8B_SWIR1-NBR_2019/108244_LandTrendr_8B_SWIR1-NBR_2019.json",
       "type": "application/json"
     },
     {
       "rel": "parent",
-      "href": "../catalog.json",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/catalog.json",
       "type": "application/json",
       "title": "STAC implementation for modelling and benchmarking forest attributes"
+    },
+    {
+      "rel": "self",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/LandTrendr/collection.json",
+      "type": "application/json"
     }
   ],
   "stac_extensions": [],

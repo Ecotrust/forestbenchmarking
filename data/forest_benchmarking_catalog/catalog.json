@@ -6,23 +6,23 @@
   "links": [
     {
       "rel": "root",
-      "href": "./catalog.json",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/catalog.json",
       "type": "application/json",
       "title": "STAC implementation for modelling and benchmarking forest attributes"
     },
     {
       "rel": "child",
-      "href": "./LandTrendr/collection.json",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/LandTrendr/collection.json",
       "type": "application/json"
     },
     {
       "rel": "child",
-      "href": "./GFLandsat_V2/collection.json",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/GFLandsat_V2/collection.json",
       "type": "application/json"
     },
     {
       "rel": "child",
-      "href": "./forest_benchmarking-labels/collection.json",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/forest_benchmarking-labels/collection.json",
       "type": "application/json"
     },
     {

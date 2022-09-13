@@ -109692,7 +109692,7 @@
   "links": [
     {
       "rel": "source",
-      "href": "../../LandTrendr/108244_LandTrendr_8B_SWIR1-NBR_2019/108244_LandTrendr_8B_SWIR1-NBR_2019.json",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/LandTrendr/108244_LandTrendr_8B_SWIR1-NBR_2019/108244_LandTrendr_8B_SWIR1-NBR_2019.json",
       "type": "application/json",
       "label:assets": [
         "image"
@@ -109700,7 +109700,7 @@
     },
     {
       "rel": "source",
-      "href": "../../GFLandsat_V2/108244_Gap_Filled_Landsat_CONUS_month_3_2019_v2/108244_Gap_Filled_Landsat_CONUS_month_3_2019_v2.json",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/GFLandsat_V2/108244_Gap_Filled_Landsat_CONUS_month_3_2019_v2/108244_Gap_Filled_Landsat_CONUS_month_3_2019_v2.json",
       "type": "application/json",
       "label:assets": [
         "image"
@@ -109708,18 +109708,23 @@
     },
     {
       "rel": "root",
-      "href": "../../catalog.json",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/catalog.json",
       "type": "application/json",
       "title": "STAC implementation for modelling and benchmarking forest attributes"
     },
     {
       "rel": "collection",
-      "href": "../collection.json",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/forest_benchmarking-labels/collection.json",
       "type": "application/json"
     },
     {
       "rel": "parent",
-      "href": "../collection.json",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/forest_benchmarking-labels/collection.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "self",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/forest_benchmarking-labels/108244_stands_malheur-usfs_2009-labels/108244_stands_malheur-usfs_2009-labels.json",
       "type": "application/json"
     }
   ],

@@ -6,40 +6,45 @@
   "links": [
     {
       "rel": "root",
-      "href": "../catalog.json",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/catalog.json",
       "type": "application/json",
       "title": "STAC implementation for modelling and benchmarking forest attributes"
     },
     {
       "rel": "item",
-      "href": "./108244_stands_malheur-usfs_2009-labels/108244_stands_malheur-usfs_2009-labels.json",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/forest_benchmarking-labels/108244_stands_malheur-usfs_2009-labels/108244_stands_malheur-usfs_2009-labels.json",
       "type": "application/json"
     },
     {
       "rel": "item",
-      "href": "./109087_stands_malheur-usfs_2009-labels/109087_stands_malheur-usfs_2009-labels.json",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/forest_benchmarking-labels/109087_stands_malheur-usfs_2009-labels/109087_stands_malheur-usfs_2009-labels.json",
       "type": "application/json"
     },
     {
       "rel": "item",
-      "href": "./109088_stands_malheur-usfs_2009-labels/109088_stands_malheur-usfs_2009-labels.json",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/forest_benchmarking-labels/109088_stands_malheur-usfs_2009-labels/109088_stands_malheur-usfs_2009-labels.json",
       "type": "application/json"
     },
     {
       "rel": "item",
-      "href": "./108243_stands_malheur-usfs_2009-labels/108243_stands_malheur-usfs_2009-labels.json",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/forest_benchmarking-labels/108243_stands_malheur-usfs_2009-labels/108243_stands_malheur-usfs_2009-labels.json",
       "type": "application/json"
     },
     {
       "rel": "item",
-      "href": "./109086_stands_malheur-usfs_2009-labels/109086_stands_malheur-usfs_2009-labels.json",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/forest_benchmarking-labels/109086_stands_malheur-usfs_2009-labels/109086_stands_malheur-usfs_2009-labels.json",
       "type": "application/json"
     },
     {
       "rel": "parent",
-      "href": "../catalog.json",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/catalog.json",
       "type": "application/json",
       "title": "STAC implementation for modelling and benchmarking forest attributes"
+    },
+    {
+      "rel": "self",
+      "href": "/home/yankuic/forestbenchmarking/notebooks/forest_benchmarking/forest_benchmarking-labels/collection.json",
+      "type": "application/json"
     }
   ],
   "stac_extensions": [],
