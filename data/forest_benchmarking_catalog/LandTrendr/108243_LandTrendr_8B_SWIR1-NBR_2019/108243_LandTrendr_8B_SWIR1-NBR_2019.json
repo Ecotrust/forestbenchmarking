@@ -90,7 +90,7 @@
       "type": "image/tiff; application=geotiff; profile=cloud-optimized"
     },
     "metadata": {
-      "href": "../data/raw/LandTrendr/108243_LandTrendr_8B_SWIR1-NBR_2019/108243_LandTrendr_8B_SWIR1-NBR_2019-metadata.json",
+      "href": "https://raw.githubusercontent.com/Ecotrust/forestbenchmarking/main/data/raw/LandTrendr/108243_LandTrendr_8B_SWIR1-NBR_2019/108243_LandTrendr_8B_SWIR1-NBR_2019-metadata.json",
       "type": "application/json"
     }
   },
