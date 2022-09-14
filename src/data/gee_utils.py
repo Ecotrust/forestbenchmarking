@@ -192,7 +192,7 @@ def parse_landtrendr_result(lt_result, current_year,
     return img.round().toShort()
 
 
-def get_landtrendr_download_url(bbox, year, epsg=4326, scale=30):
+def get_landtrendr_download_url(bbox, year, thumbnail=False, epsg=4326, scale=30):
     xmin, ymin, xmax, ymax = bbox
     aoi = ee.Geometry.Rectangle((xmin, ymin, xmax, ymax),
                                 proj=f'EPSG:{epsg}',
@@ -240,7 +240,11 @@ def get_landtrendr_download_url(bbox, year, epsg=4326, scale=30):
                       crs=f'EPSG:{epsg}',
                       formatOptions={'cloudOptimized':True})
     img = lt_img.clip(aoi)
-    url = img.getDownloadURL(url_params)
+    if thumbnail:
+        url = img.getThumbURL(dict(format='png', scale=scale, crs=f'EPSG:{epsg}', bands=['ysd_swir1', 'mag_swir1', 'dur_swir1']))
+    else:
+        url = img.getDownloadURL(url_params)
+    
     metadata = img.getInfo()
 
     return url, metadata
@@ -276,7 +280,7 @@ def read_gee_url(url):
     return raster, profile
 
 
-def download_from_url(url, save_as=None, path='.'):
+def download_from_url(url, save_as=None, thumbnail=False, path='.'):
     """Given a download URL, downloads the zip file and writes it to disk.
 
     Parameters
@@ -288,16 +292,31 @@ def download_from_url(url, save_as=None, path='.'):
     path : str
         Path to which the raster will be saved.
     """
-    response = requests.get(url)
-    zip = ZipFile(BytesIO(response.content))
-    imgfile = zip.infolist()[0]
-    
-    if save_as:
-        imgfile.filename = save_as
-    
-    zip.extract(imgfile, path=path)
+    import requests.adapters
 
-    print(f'GEE image saved as {os.path.join(path, imgfile.filename)}')
+    session = requests.Session()
+    adapter = requests.adapters.HTTPAdapter(pool_maxsize=100, max_retries=3)
+    session.mount('http://', adapter)
+    response = session.get(url)
+
+    # with requests.get(url) as response:
+    if thumbnail:
+        imgfile = 'thumbnail.png'
+        if save_as:
+            imgfile = save_as
+        with open(os.path.join(path, imgfile), 'wb') as f:
+            f.write(response.content)
+        session.close()
+
+    else:
+        zip = ZipFile(BytesIO(response.content))
+        imgfile = zip.infolist()[0]
+        if save_as:
+            imgfile.filename = save_as
+        zip.extract(imgfile, path=path)
+        session.close()
+        
+    print(f'GEE image saved as {os.path.join(path, save_as)}')
 
 
 def maskS2clouds(img):
@@ -426,7 +445,7 @@ def get_sentinel2_download_url(bbox, year, epsg, scale=10):
     return url
 
 
-def get_gflandsat_url(bbox, month, year, epsg=4326, scale=30, cog=True):
+def get_gflandsat_url(bbox, month, year, thumbnail=False, epsg=4326, scale=30, cog=True):
     """
     Fetch Gap-Filled Landsat (GFL) image url from Google Earth Engine (GEE) using a bounding box.
 
@@ -457,27 +476,41 @@ def get_gflandsat_url(bbox, month, year, epsg=4326, scale=30, cog=True):
                       crs=f'EPSG:{epsg}',
                       formatOptions={'cloudOptimized':cog})
 
-    url = img.clip(bbox).getDownloadURL(url_params)
-    metadata = img.getInfo()
+    if thumbnail:
+        visualization = {"min": 0.0, "max": 2000, "bands": ['B4_mean_post', 'B3_mean_post', 'B2_mean_post']}
+        url_params['format'] = 'png'
+        url = img.clip(bbox)\
+                 .visualize(**visualization)\
+                 .getThumbURL(url_params)
+    else:
+        url = img.clip(bbox).getDownloadURL(url_params)
+    
+    return url, img.getInfo()
 
-    return url, metadata
 
-
-def download_gflandsat_img(bbox, month, year, path, prefix=None, save_metadata=False, *args):
+def download_gflandsat_img(bbox, month, year, path, thumbnail=False, prefix=None, save_metadata=False, *args):
     """Download Gap-Filled Landsat image from Google Earth Engine (GEE) url.
     """
-    url, metadata = get_gflandsat_url(bbox, month, year, *args)
+    url, metadata = get_gflandsat_url(bbox, month, year, False *args)
 
     # Rename file to include prefix and file extension
+    
     img_name = f"{prefix}{metadata['id'].split('/')[-1]}-cog.tif"
     path = (path / img_name.replace('-cog.tif', ''))
+
     path.mkdir(parents=True, exist_ok=True)
 
     # Download cog
-    download_from_url(url, img_name, path)
+    download_from_url(url, img_name, False, path)
 
     # Save metadata as json
-    filepath = (path / img_name.replace('-cog.tif', '-metadata.json'))
+    filepath = (path / f"{prefix}{metadata['id'].split('/')[-1]}-metadata.json")
     if save_metadata:
         with open(filepath, 'w') as f:
             f.write(json.dumps(metadata, indent=4))
+
+    # Download thumbnail
+    if thumbnail:
+        url, _ = get_gflandsat_url(bbox, month, year, thumbnail, *args)
+        img_name = f"{prefix}{metadata['id'].split('/')[-1]}-sample.png"
+        download_from_url(url, img_name, thumbnail, path)
