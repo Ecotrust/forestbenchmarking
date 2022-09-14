@@ -108,6 +108,10 @@
     "metadata": {
       "href": "https://raw.githubusercontent.com/Ecotrust/forestbenchmarking/main/data/raw/GFLandsat_V2/109088_Gap_Filled_Landsat_CONUS_month_3_2019_v2/109088_Gap_Filled_Landsat_CONUS_month_3_2019_v2-metadata.json",
       "type": "application/json"
+    },
+    "thumbnail": {
+      "href": "https://raw.githubusercontent.com/Ecotrust/forestbenchmarking/main/data/raw/GFLandsat_V2/109088_Gap_Filled_Landsat_CONUS_month_3_2019_v2/109088_Gap_Filled_Landsat_CONUS_month_3_2019_v2-sample.png",
+      "type": "image/png"
     }
   },
   "bbox": [

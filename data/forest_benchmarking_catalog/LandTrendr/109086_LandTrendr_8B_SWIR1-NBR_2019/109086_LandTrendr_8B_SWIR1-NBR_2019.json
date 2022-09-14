@@ -92,6 +92,10 @@
     "metadata": {
       "href": "https://raw.githubusercontent.com/Ecotrust/forestbenchmarking/main/data/raw/LandTrendr/109086_LandTrendr_8B_SWIR1-NBR_2019/109086_LandTrendr_8B_SWIR1-NBR_2019-metadata.json",
       "type": "application/json"
+    },
+    "thumbnail": {
+      "href": "https://raw.githubusercontent.com/Ecotrust/forestbenchmarking/main/data/raw/LandTrendr/109086_LandTrendr_8B_SWIR1-NBR_2019/109086_LandTrendr_8B_SWIR1-NBR_2019-sample.png",
+      "type": "image/png"
     }
   },
   "bbox": [
