@@ -1,17 +1,19 @@
 """
 Cloned from https://github.com/Ecotrust/ForestMapping/blob/master/src/data/gee_utils.py
 """
-from curses import meta
-from importlib.metadata import metadata
 import os
 import requests
+
 import json
 from zipfile import ZipFile
 from rasterio.io import MemoryFile
 from io import BytesIO
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import ee
 from geetools import composite
+import tqdm
+
 
 def harmonize_to_oli(image):
     """Applies linear adjustments to transform earlier sensors to more closely
@@ -40,6 +42,7 @@ def harmonize_to_oli(image):
 
     return harmonized
 
+
 def mask_stuff(image):
     """Masks pixels likely to be cloud, shadow, water, or snow in a LANDSAT
     image based on the `pixel_qa` band."""
@@ -53,6 +56,7 @@ def mask_stuff(image):
     masked = image.updateMask(shadow).updateMask(cloud).updateMask(snow).updateMask(water)
 
     return masked
+
 
 def get_landsat_collection(aoi, start_year, end_year, band='SWIR1'):
     """Builds a time series of summertime LANDSAT imagery within an Area of
@@ -107,6 +111,7 @@ def get_landsat_collection(aoi, start_year, end_year, band='SWIR1'):
                            coll.first().get('system:time_start')))
 
     return ee.ImageCollection(images)
+
 
 def parse_landtrendr_result(lt_result, current_year,
                             flip_disturbance=False, big_fast=False, sieve=False):
@@ -295,7 +300,7 @@ def download_from_url(url, save_as=None, thumbnail=False, path='.'):
     import requests.adapters
 
     session = requests.Session()
-    adapter = requests.adapters.HTTPAdapter(pool_maxsize=100, max_retries=3)
+    adapter = requests.adapters.HTTPAdapter(max_retries=3)
     session.mount('http://', adapter)
     response = session.get(url)
 
@@ -317,6 +322,76 @@ def download_from_url(url, save_as=None, thumbnail=False, path='.'):
         session.close()
         
     print(f'GEE image saved as {os.path.join(path, save_as)}')
+
+
+def fetch_from_url(url, filename=None, out_dir='.', retry=True):
+    """Fetches a zipfile from a GEE URL and extracts the specified file 
+    from the zip archive to out_dir.
+
+    This is primarily intended to download a zipped GeoTiff.
+
+    Parameters
+    ----------
+    url : str
+        URL from which the raster will be downloaded.
+    filename : str
+        The filename to save the image to disk. If None, the image 
+        will be saved with the source filename.
+    out_dir : str
+        Path to which the raster will be saved.
+    retry : bool
+        If True, will retry the download if the request fails.
+    """
+    out_path = os.path.join(out_dir, filename)
+
+    if not os.path.exists(out_path):
+        response = requests.get(url)
+
+        try:
+            zip = ZipFile(BytesIO(response.content))
+        except: # downloaded zip is corrupt/failed
+            print('Zipfile is corrupted or URL creation failed.')
+            return
+
+        imgfile = zip.infolist()[0]
+        
+        if filename:
+            imgfile.filename = filename
+
+        out_path = zip.extract(imgfile, path=out_dir)
+        
+        if not os.path.exists(out_path):
+            print(f'File {out_path} not found.')
+            if retry:
+                print('Retrying...')
+                return fetch_from_url(url, filename, out_dir, retry=False)
+
+        else:
+            print(f'GEE image saved as {out_path}')
+
+    else:
+        print(f'File {out_path} already exists. Skipping...')
+        return
+
+
+def multithreaded_download(to_download):
+    num_downloads = len(to_download)
+    assert num_downloads > 0, 'Empty list of parameters passed.'
+    print('\n', 'Attempting download of {:,d} images'.format(num_downloads))
+
+    with ThreadPoolExecutor(12) as executor:
+        print('Starting to download files from Google Earth Engine.')
+        jobs = [executor.submit(fetch_from_url, *params) for params in to_download]
+        results = []
+        
+        try:
+            for job in tqdm(as_completed(jobs), total=len(jobs)):
+                results.append(job.result())
+        except Exception as e:
+            print(f'Exception "{e}" raised while downloading files.')
+            pass
+
+    return results
 
 
 def maskS2clouds(img):
