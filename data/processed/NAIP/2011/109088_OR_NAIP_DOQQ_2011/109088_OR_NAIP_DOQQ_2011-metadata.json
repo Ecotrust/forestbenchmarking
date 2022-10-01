@@ -1,0 +1,65 @@
+{
+    "type": "ImageCollection",
+    "bands": [
+        {
+            "id": "R",
+            "data_type": {
+                "type": "PixelType",
+                "precision": "int",
+                "min": 0,
+                "max": 255
+            },
+            "crs": "EPSG:4326",
+            "crs_transform": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ]
+        },
+        {
+            "id": "G",
+            "data_type": {
+                "type": "PixelType",
+                "precision": "int",
+                "min": 0,
+                "max": 255
+            },
+            "crs": "EPSG:4326",
+            "crs_transform": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ]
+        },
+        {
+            "id": "B",
+            "data_type": {
+                "type": "PixelType",
+                "precision": "int",
+                "min": 0,
+                "max": 255
+            },
+            "crs": "EPSG:4326",
+            "crs_transform": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ]
+        }
+    ],
+    "id": "109088_OR_NAIP_DOQQ_2011",
+    "properties": {
+        "system:time_start": 1041379200000,
+        "system:time_end": 1546300800000,
+        "description": "<p>The National Agriculture Imagery Program (NAIP) acquires aerial imagery\nduring the agricultural growing seasons in the continental U.S.</p><p>NAIP projects are contracted each year based upon available funding and the\nimagery acquisition cycle. Beginning in 2003, NAIP was acquired on\na 5-year cycle. 2008 was a transition year, and a three-year cycle began\nin 2009.</p><p>NAIP imagery is acquired at a one-meter ground sample distance (GSD) with a\nhorizontal accuracy that matches within six meters of photo-identifiable\nground control points, which are used during image inspection.</p><p>Older images were collected using 3 bands (Red, Green, and Blue: RGB), but\nnewer imagery is usually collected with an additional near-infrared band\n(RGBN). RGB asset ids begin with &#39;n<em>&#39;, NRG asset ids begin with &#39;c</em>&#39;, RGBN\nasset ids begin with &#39;m_&#39;.</p><p><b>Provider: <a href=\"https://www.fsa.usda.gov/programs-and-services/aerial-photography/imagery-programs/naip-imagery/\">USDA Farm Production and Conservation - Business Center, Geospatial Enterprise Operations</a></b><br><p><b>Resolution</b><br>1 meter\n</p><p><b>Bands</b><table class=\"eecat\"><tr><th scope=\"col\">Name</th><th scope=\"col\">Description</th></tr><tr><td>R</td><td><p>Red</p></td></tr><tr><td>G</td><td><p>Green</p></td></tr><tr><td>B</td><td><p>Blue</p></td></tr><tr><td>N</td><td><p>Near infrared</p></td></tr></table><p><b>Terms of Use</b><br><p>Most information presented on the FSA Web site is considered public domain\ninformation. Public domain information may be freely distributed or copied,\nbut use of appropriate byline/photo/image credits is requested. For more\ninformation visit the <a href=\"https://www.fsa.usda.gov/help/policies-and-links\">FSA Policies and Links</a>\nwebsite.</p><p>Users should acknowledge USDA Farm Production and Conservation -\nBusiness Center, Geospatial Enterprise Operations when using or\ndistributing this data set.</p><p><b>Suggested citation(s)</b><ul><li><p>USDA Farm Production and Conservation - Business Center, Geospatial Enterprise Operations</p></li></ul><style>\n  table.eecat {\n  border: 1px solid black;\n  border-collapse: collapse;\n  font-size: 13px;\n  }\n  table.eecat td, tr, th {\n  text-align: left; vertical-align: top;\n  border: 1px solid gray; padding: 3px;\n  }\n  td.nobreak { white-space: nowrap; }\n</style>"
+    }
+}

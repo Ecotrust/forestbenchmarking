@@ -1,0 +1,57 @@
+{
+  "type": "Collection",
+  "id": "GFLandsat_V1",
+  "stac_version": "1.0.0",
+  "description": "GFLandsat V1 dataset for Oregon state",
+  "links": [
+    {
+      "rel": "root",
+      "href": "../catalog.json",
+      "type": "application/json",
+      "title": "STAC implementation for modelling and benchmarking forest attributes"
+    },
+    {
+      "rel": "item",
+      "href": "./109088_Gap_Filled_Landsat_CONUS_2011_leafon/109088_Gap_Filled_Landsat_CONUS_2011_leafon.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./109086_Gap_Filled_Landsat_CONUS_2011_leafon/109086_Gap_Filled_Landsat_CONUS_2011_leafon.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./108243_Gap_Filled_Landsat_CONUS_2011_leafon/108243_Gap_Filled_Landsat_CONUS_2011_leafon.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./109087_Gap_Filled_Landsat_CONUS_2011_leafon/109087_Gap_Filled_Landsat_CONUS_2011_leafon.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./108244_Gap_Filled_Landsat_CONUS_2011_leafon/108244_Gap_Filled_Landsat_CONUS_2011_leafon.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "parent",
+      "href": "../catalog.json",
+      "type": "application/json",
+      "title": "STAC implementation for modelling and benchmarking forest attributes"
+    }
+  ],
+  "stac_extensions": [],
+  "extent": {
+    "bbox": [
+      [
+        -119.43750126138885,
+        43.87499847881951,
+        -119.25000108499991,
+        44.3749981924306
+      ]
+    ]
+  },
+  "license": "proprietary"
+}

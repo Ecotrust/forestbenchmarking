@@ -1,0 +1,247 @@
+{
+    "type": "ImageCollection",
+    "bands": [
+        {
+            "id": "ysd_swir1",
+            "data_type": {
+                "type": "PixelType",
+                "precision": "int",
+                "min": -32768,
+                "max": 32767
+            },
+            "dimensions": [
+                1,
+                1
+            ],
+            "origin": [
+                -120,
+                44
+            ],
+            "crs": "EPSG:4326",
+            "crs_transform": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ]
+        },
+        {
+            "id": "mag_swir1",
+            "data_type": {
+                "type": "PixelType",
+                "precision": "int",
+                "min": -32768,
+                "max": 32767
+            },
+            "dimensions": [
+                1,
+                1
+            ],
+            "origin": [
+                -120,
+                44
+            ],
+            "crs": "EPSG:4326",
+            "crs_transform": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ]
+        },
+        {
+            "id": "dur_swir1",
+            "data_type": {
+                "type": "PixelType",
+                "precision": "int",
+                "min": -32768,
+                "max": 32767
+            },
+            "dimensions": [
+                1,
+                1
+            ],
+            "origin": [
+                -120,
+                44
+            ],
+            "crs": "EPSG:4326",
+            "crs_transform": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ]
+        },
+        {
+            "id": "rate_swir1",
+            "data_type": {
+                "type": "PixelType",
+                "precision": "int",
+                "min": -32768,
+                "max": 32767
+            },
+            "dimensions": [
+                1,
+                1
+            ],
+            "origin": [
+                -120,
+                44
+            ],
+            "crs": "EPSG:4326",
+            "crs_transform": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ]
+        },
+        {
+            "id": "ysd_nbr",
+            "data_type": {
+                "type": "PixelType",
+                "precision": "int",
+                "min": -32768,
+                "max": 32767
+            },
+            "dimensions": [
+                1,
+                1
+            ],
+            "origin": [
+                -120,
+                44
+            ],
+            "crs": "EPSG:4326",
+            "crs_transform": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ]
+        },
+        {
+            "id": "mag_nbr",
+            "data_type": {
+                "type": "PixelType",
+                "precision": "int",
+                "min": -32768,
+                "max": 32767
+            },
+            "dimensions": [
+                1,
+                1
+            ],
+            "origin": [
+                -120,
+                44
+            ],
+            "crs": "EPSG:4326",
+            "crs_transform": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ]
+        },
+        {
+            "id": "dur_nbr",
+            "data_type": {
+                "type": "PixelType",
+                "precision": "int",
+                "min": -32768,
+                "max": 32767
+            },
+            "dimensions": [
+                1,
+                1
+            ],
+            "origin": [
+                -120,
+                44
+            ],
+            "crs": "EPSG:4326",
+            "crs_transform": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ]
+        },
+        {
+            "id": "rate_nbr",
+            "data_type": {
+                "type": "PixelType",
+                "precision": "int",
+                "min": -32768,
+                "max": 32767
+            },
+            "dimensions": [
+                1,
+                1
+            ],
+            "origin": [
+                -120,
+                44
+            ],
+            "crs": "EPSG:4326",
+            "crs_transform": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ]
+        }
+    ],
+    "properties": {
+        "system:time_start": 1308853631080,
+        "system:footprint": {
+            "geodesic": false,
+            "type": "Polygon",
+            "coordinates": [
+                [
+                    [
+                        -119.43750126138885,
+                        44.24999833187507
+                    ],
+                    [
+                        -119.37500118059022,
+                        44.24999833187507
+                    ],
+                    [
+                        -119.37500118059022,
+                        44.31249826489592
+                    ],
+                    [
+                        -119.43750126138885,
+                        44.31249826489592
+                    ],
+                    [
+                        -119.43750126138885,
+                        44.24999833187507
+                    ]
+                ]
+            ]
+        },
+        "system:time_end": 457293983159,
+        "description": null
+    },
+    "id": "108244_LandTrendr_8B_SWIR1-NBR_2011"
+}

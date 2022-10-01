@@ -111762,7 +111762,7 @@
   "links": [
     {
       "rel": "source",
-      "href": "../../LandTrendr/109087_LandTrendr_8B_SWIR1-NBR_2019/109087_LandTrendr_8B_SWIR1-NBR_2019.json",
+      "href": "../../LandTrendr/109087_LandTrendr_8B_SWIR1-NBR_2011/109087_LandTrendr_8B_SWIR1-NBR_2011.json",
       "type": "application/json",
       "label:assets": [
         "image"
@@ -111770,7 +111770,15 @@
     },
     {
       "rel": "source",
-      "href": "../../GFLandsat_V2/109087_Gap_Filled_Landsat_CONUS_month_3_2019_v2/109087_Gap_Filled_Landsat_CONUS_month_3_2019_v2.json",
+      "href": "../../NAIP/109087_OR_NAIP_DOQQ_2011/109087_OR_NAIP_DOQQ_2011.json",
+      "type": "application/json",
+      "label:assets": [
+        "image"
+      ]
+    },
+    {
+      "rel": "source",
+      "href": "../../GFLandsat_V1/109087_Gap_Filled_Landsat_CONUS_2011_leafon/109087_Gap_Filled_Landsat_CONUS_2011_leafon.json",
       "type": "application/json",
       "label:assets": [
         "image"

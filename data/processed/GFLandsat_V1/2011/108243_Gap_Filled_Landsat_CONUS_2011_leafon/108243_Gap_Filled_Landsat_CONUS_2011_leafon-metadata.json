@@ -1,0 +1,351 @@
+{
+    "type": "ImageCollection",
+    "bands": [
+        {
+            "id": "B1_mean_post",
+            "data_type": {
+                "type": "PixelType",
+                "precision": "double",
+                "min": -32768,
+                "max": 32767
+            },
+            "dimensions": [
+                1,
+                1
+            ],
+            "origin": [
+                -120,
+                44
+            ],
+            "crs": "EPSG:4326",
+            "crs_transform": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ]
+        },
+        {
+            "id": "P1_postSD",
+            "data_type": {
+                "type": "PixelType",
+                "precision": "double",
+                "min": 0,
+                "max": 255
+            },
+            "dimensions": [
+                1,
+                1
+            ],
+            "origin": [
+                -120,
+                44
+            ],
+            "crs": "EPSG:4326",
+            "crs_transform": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ]
+        },
+        {
+            "id": "B2_mean_post",
+            "data_type": {
+                "type": "PixelType",
+                "precision": "double",
+                "min": -32768,
+                "max": 32767
+            },
+            "dimensions": [
+                1,
+                1
+            ],
+            "origin": [
+                -120,
+                44
+            ],
+            "crs": "EPSG:4326",
+            "crs_transform": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ]
+        },
+        {
+            "id": "P2_postSD",
+            "data_type": {
+                "type": "PixelType",
+                "precision": "double",
+                "min": 0,
+                "max": 255
+            },
+            "dimensions": [
+                1,
+                1
+            ],
+            "origin": [
+                -120,
+                44
+            ],
+            "crs": "EPSG:4326",
+            "crs_transform": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ]
+        },
+        {
+            "id": "B3_mean_post",
+            "data_type": {
+                "type": "PixelType",
+                "precision": "double",
+                "min": -32768,
+                "max": 32767
+            },
+            "dimensions": [
+                1,
+                1
+            ],
+            "origin": [
+                -120,
+                44
+            ],
+            "crs": "EPSG:4326",
+            "crs_transform": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ]
+        },
+        {
+            "id": "P3_postSD",
+            "data_type": {
+                "type": "PixelType",
+                "precision": "double",
+                "min": 0,
+                "max": 255
+            },
+            "dimensions": [
+                1,
+                1
+            ],
+            "origin": [
+                -120,
+                44
+            ],
+            "crs": "EPSG:4326",
+            "crs_transform": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ]
+        },
+        {
+            "id": "B4_mean_post",
+            "data_type": {
+                "type": "PixelType",
+                "precision": "double",
+                "min": -32768,
+                "max": 32767
+            },
+            "dimensions": [
+                1,
+                1
+            ],
+            "origin": [
+                -120,
+                44
+            ],
+            "crs": "EPSG:4326",
+            "crs_transform": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ]
+        },
+        {
+            "id": "P4_postSD",
+            "data_type": {
+                "type": "PixelType",
+                "precision": "double",
+                "min": 0,
+                "max": 255
+            },
+            "dimensions": [
+                1,
+                1
+            ],
+            "origin": [
+                -120,
+                44
+            ],
+            "crs": "EPSG:4326",
+            "crs_transform": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ]
+        },
+        {
+            "id": "B5_mean_post",
+            "data_type": {
+                "type": "PixelType",
+                "precision": "double",
+                "min": -32768,
+                "max": 32767
+            },
+            "dimensions": [
+                1,
+                1
+            ],
+            "origin": [
+                -120,
+                44
+            ],
+            "crs": "EPSG:4326",
+            "crs_transform": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ]
+        },
+        {
+            "id": "P5_postSD",
+            "data_type": {
+                "type": "PixelType",
+                "precision": "double",
+                "min": 0,
+                "max": 255
+            },
+            "dimensions": [
+                1,
+                1
+            ],
+            "origin": [
+                -120,
+                44
+            ],
+            "crs": "EPSG:4326",
+            "crs_transform": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ]
+        },
+        {
+            "id": "B7_mean_post",
+            "data_type": {
+                "type": "PixelType",
+                "precision": "double",
+                "min": -32768,
+                "max": 32767
+            },
+            "dimensions": [
+                1,
+                1
+            ],
+            "origin": [
+                -120,
+                44
+            ],
+            "crs": "EPSG:4326",
+            "crs_transform": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ]
+        },
+        {
+            "id": "P7_postSD",
+            "data_type": {
+                "type": "PixelType",
+                "precision": "double",
+                "min": 0,
+                "max": 255
+            },
+            "dimensions": [
+                1,
+                1
+            ],
+            "origin": [
+                -120,
+                44
+            ],
+            "crs": "EPSG:4326",
+            "crs_transform": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ]
+        }
+    ],
+    "properties": {
+        "system:footprint": {
+            "geodesic": false,
+            "type": "Polygon",
+            "coordinates": [
+                [
+                    [
+                        -119.43750122498258,
+                        44.31249826022575
+                    ],
+                    [
+                        -119.37500115923604,
+                        44.31249826022575
+                    ],
+                    [
+                        -119.37500115923604,
+                        44.3749981924306
+                    ],
+                    [
+                        -119.43750122498258,
+                        44.3749981924306
+                    ],
+                    [
+                        -119.43750122498258,
+                        44.31249826022575
+                    ]
+                ]
+            ]
+        },
+        "system:time_start": 1231977600000,
+        "system:time_end": 1639526400000,
+        "description": "**Landsat HISTARFM V1**\n\nThis dataset has been produced with the\u00a0HIghly Scalable Temporal Adaptive\nReflectance Fusion Model (HISTARFM). It uses\u00a0 harmonized Landsat 5,7,8 observations and MODIS data from the Terra and Aqua platforms.\n\n\n\n\u00a0 <https://www.sciencedirect.com/science/article/pii/S0034425720302716>\n\nResolutions: Spatial-30 meters / Temporal-Monthly\u00a0 \u00a0 \u00a0\n\n\n*Reflectance bands:*\n\n\n| **Name** | **Scale** | **Wavelength** |\n|--------------|-----------|----------------|\n| B1_mean_post | 0.0001 | 0.45-0.52 \u03bcm |\u00a0\n| B2_mean_post | 0.0001 | 0.52-0.60 \u03bcm |\u00a0\n| B3_mean_post | 0.0001 | 0.63-0.69 \u03bcm |\u00a0\n| B4_mean_post | 0.0001 | 0.77-0.90 \u03bcm |\u00a0\n| B5_mean_post | 0.0001 | 1.55-1.75 \u03bcm |\u00a0\n| B7_mean_post | 0.0001 | 2.08-2.35 \u03bcm |\u00a0\n\n\nPredicted uncertainties scale factor is\u00a0 0.013.\u00a0 \u00a0 \u00a0\u00a0"
+    },
+    "id": "108243_Gap_Filled_Landsat_CONUS_2011_leafon"
+}

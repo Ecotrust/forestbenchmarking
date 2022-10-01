@@ -17,7 +17,12 @@
     },
     {
       "rel": "child",
-      "href": "./GFLandsat_V2/collection.json",
+      "href": "./NAIP/collection.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "child",
+      "href": "./GFLandsat_V1/collection.json",
       "type": "application/json"
     },
     {

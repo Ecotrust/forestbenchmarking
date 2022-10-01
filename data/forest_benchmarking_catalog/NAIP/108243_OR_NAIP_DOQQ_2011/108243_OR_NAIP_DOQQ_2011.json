@@ -1,0 +1,91 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "id": "108243_OR_NAIP_DOQQ_2011",
+  "properties": {
+    "eo:bands": [
+      {
+        "name": "R",
+        "common_name": "R"
+      },
+      {
+        "name": "G",
+        "common_name": "G"
+      },
+      {
+        "name": "B",
+        "common_name": "B"
+      }
+    ],
+    "datetime": "2003-01-01T00:00:00Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -119.37500115923605,
+          44.31249826022575
+        ],
+        [
+          -119.37500115923605,
+          44.3749981924306
+        ],
+        [
+          -119.43750122498258,
+          44.3749981924306
+        ],
+        [
+          -119.43750122498258,
+          44.31249826022575
+        ],
+        [
+          -119.37500115923605,
+          44.31249826022575
+        ]
+      ]
+    ]
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json",
+      "title": "STAC implementation for modelling and benchmarking forest attributes"
+    },
+    {
+      "rel": "collection",
+      "href": "../collection.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "parent",
+      "href": "../collection.json",
+      "type": "application/json"
+    }
+  ],
+  "assets": {
+    "image": {
+      "href": "https://raw.githubusercontent.com/Ecotrust/forestbenchmarking/main/data/processed/NAIP/2011/108243_OR_NAIP_DOQQ_2011/108243_OR_NAIP_DOQQ_2011-cog.tif",
+      "type": "image/tiff; application=geotiff; profile=cloud-optimized"
+    },
+    "metadata": {
+      "href": "https://raw.githubusercontent.com/Ecotrust/forestbenchmarking/main/data/processed/NAIP/2011/108243_OR_NAIP_DOQQ_2011/108243_OR_NAIP_DOQQ_2011-metadata.json",
+      "type": "application/json"
+    },
+    "thumbnail": {
+      "href": "https://raw.githubusercontent.com/Ecotrust/forestbenchmarking/main/data/processed/NAIP/2011/108243_OR_NAIP_DOQQ_2011/108243_OR_NAIP_DOQQ_2011-preview.png",
+      "type": "image/png"
+    }
+  },
+  "bbox": [
+    -119.43750122498258,
+    44.31249826022575,
+    -119.37500115923605,
+    44.3749981924306
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/eo/v1.0.0/schema.json"
+  ],
+  "collection": "NAIP"
+}
