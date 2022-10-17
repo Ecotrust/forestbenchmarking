@@ -28,6 +28,9 @@ dependencies:
   - scikit-optimize
   - seaborn
   - tqdm
+  - richdem
+  - pysheds
+  - rio-cogeo
   - pip:
       - geetools
       - autorank 
