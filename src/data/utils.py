@@ -1,4 +1,34 @@
+# %%
 import numpy as np
+
+def degrees_to_meters(deg, angle='lon'):
+    """Convert degrees to meters.
+
+    From https://earthscience.stackexchange.com/questions/7350/
+    converting-grid-resolution-from-degrees-to-kilometers
+
+    Parameters
+    ----------
+    deg : float
+        Degrees to convert.
+    plane : str, optional
+        Indicates whether deg are degrees latitude or degrees longitude. 
+        The default is 'lon'.
+
+    Returns
+    -------
+    float : Distance in meters.
+    """
+    import math
+
+    R = 6378137.0  # Earth radius in meters
+    rad = math.radians(deg)
+
+    if angle == 'lon':
+        return R * rad * math.cos(rad)
+
+    elif angle == 'lat':
+        return R * rad
 
 
 def split_bbox(dim, bbox_to_split):
@@ -64,3 +94,5 @@ def create_directory_tree(*args):
         os.makedirs(filepath)
 
     return filepath
+
+# %%
