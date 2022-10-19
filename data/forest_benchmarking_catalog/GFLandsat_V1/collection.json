@@ -12,7 +12,12 @@
     },
     {
       "rel": "item",
-      "href": "./109088_Gap_Filled_Landsat_CONUS_2011_leafon/109088_Gap_Filled_Landsat_CONUS_2011_leafon.json",
+      "href": "./108243_Gap_Filled_Landsat_CONUS_2011_leafon/108243_Gap_Filled_Landsat_CONUS_2011_leafon.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./108244_Gap_Filled_Landsat_CONUS_2011_leafon/108244_Gap_Filled_Landsat_CONUS_2011_leafon.json",
       "type": "application/json"
     },
     {
@@ -22,17 +27,12 @@
     },
     {
       "rel": "item",
-      "href": "./108243_Gap_Filled_Landsat_CONUS_2011_leafon/108243_Gap_Filled_Landsat_CONUS_2011_leafon.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
       "href": "./109087_Gap_Filled_Landsat_CONUS_2011_leafon/109087_Gap_Filled_Landsat_CONUS_2011_leafon.json",
       "type": "application/json"
     },
     {
       "rel": "item",
-      "href": "./108244_Gap_Filled_Landsat_CONUS_2011_leafon/108244_Gap_Filled_Landsat_CONUS_2011_leafon.json",
+      "href": "./109088_Gap_Filled_Landsat_CONUS_2011_leafon/109088_Gap_Filled_Landsat_CONUS_2011_leafon.json",
       "type": "application/json"
     },
     {

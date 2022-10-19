@@ -1,0 +1,57 @@
+{
+  "type": "Collection",
+  "id": "3DEP",
+  "stac_version": "1.0.0",
+  "description": "3DEP elevation data for Oregon State",
+  "links": [
+    {
+      "rel": "root",
+      "href": "../catalog.json",
+      "type": "application/json",
+      "title": "STAC implementation for modelling and benchmarking forest attributes"
+    },
+    {
+      "rel": "item",
+      "href": "./108243_3DEP_10mDEM/108243_3DEP_10mDEM.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./108244_3DEP_10mDEM/108244_3DEP_10mDEM.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./109086_3DEP_10mDEM/109086_3DEP_10mDEM.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./109087_3DEP_10mDEM/109087_3DEP_10mDEM.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./109088_3DEP_10mDEM/109088_3DEP_10mDEM.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "parent",
+      "href": "../catalog.json",
+      "type": "application/json",
+      "title": "STAC implementation for modelling and benchmarking forest attributes"
+    }
+  ],
+  "stac_extensions": [],
+  "extent": {
+    "bbox": [
+      [
+        -119.43750126138885,
+        43.87499847881951,
+        -119.25000108499991,
+        44.3749981924306
+      ]
+    ]
+  },
+  "license": "proprietary"
+}

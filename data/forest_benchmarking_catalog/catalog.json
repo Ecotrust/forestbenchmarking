@@ -12,17 +12,22 @@
     },
     {
       "rel": "child",
+      "href": "./3DEP/collection.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "child",
+      "href": "./GFLandsat_V1/collection.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "child",
       "href": "./LandTrendr/collection.json",
       "type": "application/json"
     },
     {
       "rel": "child",
       "href": "./NAIP/collection.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "child",
-      "href": "./GFLandsat_V1/collection.json",
       "type": "application/json"
     },
     {

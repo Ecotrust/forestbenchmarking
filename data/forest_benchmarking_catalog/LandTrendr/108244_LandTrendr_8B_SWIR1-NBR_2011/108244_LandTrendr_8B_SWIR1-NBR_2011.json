@@ -5,36 +5,28 @@
   "properties": {
     "eo:bands": [
       {
-        "name": "ysd_swir1",
-        "common_name": "ysd_swir1"
+        "name": "ysd_swir1"
       },
       {
-        "name": "mag_swir1",
-        "common_name": "mag_swir1"
+        "name": "mag_swir1"
       },
       {
-        "name": "dur_swir1",
-        "common_name": "dur_swir1"
+        "name": "dur_swir1"
       },
       {
-        "name": "rate_swir1",
-        "common_name": "rate_swir1"
+        "name": "rate_swir1"
       },
       {
-        "name": "ysd_nbr",
-        "common_name": "ysd_nbr"
+        "name": "ysd_nbr"
       },
       {
-        "name": "mag_nbr",
-        "common_name": "mag_nbr"
+        "name": "mag_nbr"
       },
       {
-        "name": "dur_nbr",
-        "common_name": "dur_nbr"
+        "name": "dur_nbr"
       },
       {
-        "name": "rate_nbr",
-        "common_name": "rate_nbr"
+        "name": "rate_nbr"
       }
     ],
     "datetime": "2011-06-23T18:27:11.080000Z"

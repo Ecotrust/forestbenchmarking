@@ -17,22 +17,22 @@
     },
     {
       "rel": "item",
-      "href": "./109086_OR_NAIP_DOQQ_2011/109086_OR_NAIP_DOQQ_2011.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "./109088_OR_NAIP_DOQQ_2011/109088_OR_NAIP_DOQQ_2011.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
       "href": "./108244_OR_NAIP_DOQQ_2011/108244_OR_NAIP_DOQQ_2011.json",
       "type": "application/json"
     },
     {
       "rel": "item",
+      "href": "./109086_OR_NAIP_DOQQ_2011/109086_OR_NAIP_DOQQ_2011.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
       "href": "./109087_OR_NAIP_DOQQ_2011/109087_OR_NAIP_DOQQ_2011.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./109088_OR_NAIP_DOQQ_2011/109088_OR_NAIP_DOQQ_2011.json",
       "type": "application/json"
     },
     {

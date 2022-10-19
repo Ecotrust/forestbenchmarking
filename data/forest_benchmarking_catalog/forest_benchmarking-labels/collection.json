@@ -12,12 +12,17 @@
     },
     {
       "rel": "item",
-      "href": "./109086_stands_malheur-usfs_2009-labels/109086_stands_malheur-usfs_2009-labels.json",
+      "href": "./108243_stands_malheur-usfs_2009-labels/108243_stands_malheur-usfs_2009-labels.json",
       "type": "application/json"
     },
     {
       "rel": "item",
-      "href": "./109088_stands_malheur-usfs_2009-labels/109088_stands_malheur-usfs_2009-labels.json",
+      "href": "./108244_stands_malheur-usfs_2009-labels/108244_stands_malheur-usfs_2009-labels.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./109086_stands_malheur-usfs_2009-labels/109086_stands_malheur-usfs_2009-labels.json",
       "type": "application/json"
     },
     {
@@ -27,12 +32,7 @@
     },
     {
       "rel": "item",
-      "href": "./108243_stands_malheur-usfs_2009-labels/108243_stands_malheur-usfs_2009-labels.json",
-      "type": "application/json"
-    },
-    {
-      "rel": "item",
-      "href": "./108244_stands_malheur-usfs_2009-labels/108244_stands_malheur-usfs_2009-labels.json",
+      "href": "./109088_stands_malheur-usfs_2009-labels/109088_stands_malheur-usfs_2009-labels.json",
       "type": "application/json"
     },
     {

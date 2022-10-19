@@ -1,0 +1,111 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "id": "108243_3DEP_10mDEM",
+  "properties": {
+    "eo:bands": [
+      {
+        "name": "dem",
+        "common_name": "Digital Elevation Model"
+      },
+      {
+        "name": "slope",
+        "common_name": "Slope"
+      },
+      {
+        "name": "aspect",
+        "common_name": "Aspect"
+      },
+      {
+        "name": "flowacc",
+        "common_name": "Flow Accumulation"
+      },
+      {
+        "name": "tpi300",
+        "common_name": "Topographic Position Index (300m)"
+      },
+      {
+        "name": "tpi2000",
+        "common_name": "Topographic Position Index (2000m)"
+      },
+      {
+        "name": "spc300",
+        "common_name": "Slope Position Class (300m)"
+      },
+      {
+        "name": "landform",
+        "common_name": "Landform Class"
+      }
+    ],
+    "datetime": "2022-09-07T04:00:00Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -119.37500115923605,
+          44.31249826022575
+        ],
+        [
+          -119.37500115923605,
+          44.3749981924306
+        ],
+        [
+          -119.43750122498258,
+          44.3749981924306
+        ],
+        [
+          -119.43750122498258,
+          44.31249826022575
+        ],
+        [
+          -119.37500115923605,
+          44.31249826022575
+        ]
+      ]
+    ]
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json",
+      "title": "STAC implementation for modelling and benchmarking forest attributes"
+    },
+    {
+      "rel": "collection",
+      "href": "../collection.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "parent",
+      "href": "../collection.json",
+      "type": "application/json"
+    }
+  ],
+  "assets": {
+    "image": {
+      "href": "https://raw.githubusercontent.com/Ecotrust/forestbenchmarking/main/data/processed/3DEP/108243_3DEP_10mDEM/108243_3DEP_10mDEM-cog.tif",
+      "type": "image/tiff; application=geotiff; profile=cloud-optimized"
+    },
+    "metadata": {
+      "href": "https://raw.githubusercontent.com/Ecotrust/forestbenchmarking/main/data/processed/3DEP/108243_3DEP_10mDEM/108243_3DEP_10mDEM-metadata.json",
+      "type": "application/json"
+    },
+    "thumbnail": {
+      "href": "https://raw.githubusercontent.com/Ecotrust/forestbenchmarking/main/data/processed/3DEP/108243_3DEP_10mDEM/108243_3DEP_10mDEM-preview.png",
+      "type": "image/png"
+    }
+  },
+  "bbox": [
+    -119.43750122498258,
+    44.31249826022575,
+    -119.37500115923605,
+    44.3749981924306
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/eo/v1.0.0/schema.json"
+  ],
+  "collection": "3DEP"
+}

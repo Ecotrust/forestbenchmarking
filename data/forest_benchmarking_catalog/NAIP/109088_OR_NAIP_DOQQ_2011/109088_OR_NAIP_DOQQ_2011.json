@@ -5,16 +5,13 @@
   "properties": {
     "eo:bands": [
       {
-        "name": "R",
-        "common_name": "R"
+        "name": "R"
       },
       {
-        "name": "G",
-        "common_name": "G"
+        "name": "G"
       },
       {
-        "name": "B",
-        "common_name": "B"
+        "name": "B"
       }
     ],
     "datetime": "2003-01-01T00:00:00Z"

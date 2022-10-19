@@ -113048,6 +113048,22 @@
   "links": [
     {
       "rel": "source",
+      "href": "../../3DEP/109088_3DEP_10mDEM/109088_3DEP_10mDEM.json",
+      "type": "application/json",
+      "label:assets": [
+        "image"
+      ]
+    },
+    {
+      "rel": "source",
+      "href": "../../GFLandsat_V1/109088_Gap_Filled_Landsat_CONUS_2011_leafon/109088_Gap_Filled_Landsat_CONUS_2011_leafon.json",
+      "type": "application/json",
+      "label:assets": [
+        "image"
+      ]
+    },
+    {
+      "rel": "source",
       "href": "../../LandTrendr/109088_LandTrendr_8B_SWIR1-NBR_2011/109088_LandTrendr_8B_SWIR1-NBR_2011.json",
       "type": "application/json",
       "label:assets": [
@@ -113057,14 +113073,6 @@
     {
       "rel": "source",
       "href": "../../NAIP/109088_OR_NAIP_DOQQ_2011/109088_OR_NAIP_DOQQ_2011.json",
-      "type": "application/json",
-      "label:assets": [
-        "image"
-      ]
-    },
-    {
-      "rel": "source",
-      "href": "../../GFLandsat_V1/109088_Gap_Filled_Landsat_CONUS_2011_leafon/109088_Gap_Filled_Landsat_CONUS_2011_leafon.json",
       "type": "application/json",
       "label:assets": [
         "image"
