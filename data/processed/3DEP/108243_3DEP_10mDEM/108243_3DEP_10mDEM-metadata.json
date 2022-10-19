@@ -1,0 +1,45 @@
+{
+    "currentVersion": 10.71,
+    "description": "The USGS 3D Elevation Program (3DEP) Bare Earth DEM Dynamic service is based on multi-resolution USGS DEM sources and provides dynamic functions for visualization. These functions include: Hillshade, Aspect Map, Hillshade Stretched, Multi-directional Hillshade, Slope Map, Elevation Tinted Hillshade, Contour. In addition the OGC Web Map Service (WMS) and Web Coverage Service (WCS) interfaces are enabled. Data available in this map service reflects all 3DEP DEM data published as of September 5, 2022.",
+    "copyrightText": "USGS National Map 3D Elevation Program (3DEP). September 7, 2022.",
+    "id": "108243_3DEP_10mDEM",
+    "name": "USGS National Map 3D Elevation Program (3DEP).",
+    "resolution": 10,
+    "bands": [
+        {
+            "id": "dem",
+            "name": "Digital Elevation Model"
+        },
+        {
+            "id": "slope",
+            "name": "Slope"
+        },
+        {
+            "id": "aspect",
+            "name": "Aspect"
+        },
+        {
+            "id": "flowacc",
+            "name": "Flow Accumulation"
+        },
+        {
+            "id": "tpi300",
+            "name": "Topographic Position Index (300m)"
+        },
+        {
+            "id": "tpi2000",
+            "name": "Topographic Position Index (2000m)"
+        },
+        {
+            "id": "spc300",
+            "name": "Slope Position Class (300m)"
+        },
+        {
+            "id": "landform",
+            "name": "Landform Class"
+        }
+    ],
+    "properties": {
+        "system:time_start": 1662523200000
+    }
+}
