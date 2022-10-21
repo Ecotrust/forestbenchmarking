@@ -113,3 +113,6 @@ if __name__ == "__main__":
     ).T
 
     multithreaded_download(params, get_gflandsat)
+    
+    params[params == 'leafon'] = 'leafoff'
+    multithreaded_download(params, get_gflandsat)
