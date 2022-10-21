@@ -4,7 +4,6 @@ import os
 import glob
 import sys
 from pathlib import Path
-from typing import Tuple
 
 import ee
 import geopandas as gpd
@@ -22,7 +21,7 @@ STATE = "OR"
 YEARS = [2011]
 
 
-def get_naip(gdf, state, year, out_dir, overwrite=False):
+def get_naip(gdf, state, year, out_dir):
     """Iterates through features in a GeoDataFrame and exports NAIP images that
     include the centroid of each feature.
 
@@ -73,7 +72,7 @@ def get_naip(gdf, state, year, out_dir, overwrite=False):
                 .filterDate(f"{year}-01-01", f"{year}-12-31")
             )
             coll_size = collection.size().getInfo()
-            image = collection.select("R", "G", "B", "N").mosaic()
+            image = collection.select("R", "G", "B").mosaic()
 
             img = GEEImageLoader(image)
             img.metadata_from_collection(collection)
@@ -96,7 +95,7 @@ def get_naip(gdf, state, year, out_dir, overwrite=False):
                 # set low res to generate preview
                 img.set_params("scale", 30)
                 prev_to_download.append(
-                    (img.get_url(preview=True), f"{img.id}-preview.png", out_path, True, True, overwrite)
+                    (img.get_url(preview=True), f"{img.id}-preview.png", out_path, True)
                 )
 
                 # set the scale back to 1 for the full res download
@@ -107,7 +106,7 @@ def get_naip(gdf, state, year, out_dir, overwrite=False):
                     img.set_params("scale", 1)
                     img.set_params("region", aoi)
                     img.image = image.clip(aoi)
-                    to_download.append((img.get_url(), f"{out_tile}.tif", out_path, False, True, overwrite))
+                    to_download.append((img.get_url(), f"{out_tile}.tif", out_path))
 
         # report progress
         if idx % 100 == 0 and idx > 0:
@@ -124,13 +123,9 @@ if "__main__" == __name__:
     ee.Initialize(opt_url="https://earthengine-highvolume.googleapis.com")
 
     qq_shp = gpd.read_file(root / SHP_DIR / QQ_SHP)
-    
-    overwrite = True
+
     for year in YEARS:
-        to_download, prev_to_download = get_naip(qq_shp, STATE, year, root / OUT_DIR, overwrite=overwrite)
+        to_download, prev_to_download = get_naip(qq_shp, STATE, year, root / OUT_DIR)
         if len(to_download) > 0:
             multithreaded_download(to_download, download_from_url)
             multithreaded_download(prev_to_download, download_from_url)
-    
-    if overwrite:
-        os.system("src/data/merge_tiles.sh data/raw/NAIP/2011 data/processed/NAIP/2011")

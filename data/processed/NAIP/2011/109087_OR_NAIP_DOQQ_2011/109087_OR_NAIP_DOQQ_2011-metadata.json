@@ -54,6 +54,24 @@
                 1,
                 0
             ]
+        },
+        {
+            "id": "N",
+            "data_type": {
+                "type": "PixelType",
+                "precision": "int",
+                "min": 0,
+                "max": 255
+            },
+            "crs": "EPSG:4326",
+            "crs_transform": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0
+            ]
         }
     ],
     "id": "109087_OR_NAIP_DOQQ_2011",
