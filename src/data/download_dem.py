@@ -36,13 +36,11 @@ import sys
 import requests
 from pathlib import Path
 import contextlib
-from multiprocessing import Pool
+from functools import partial
+from multiprocessing.pool import ThreadPool
 
 import numpy as np
 import geopandas as gpd
-
-from functools import partial
-from multiprocessing.pool import ThreadPool
 import rasterio
 from rasterio import MemoryFile
 from rasterio import transform
@@ -55,6 +53,7 @@ from skimage.morphology import disk
 from skimage.util import apply_parallel
 from tqdm import tqdm
 from pyproj import CRS
+import matplotlib.pyplot as plt
 
 
 root = [p for p in Path(__file__).parents if p.name == "forestbenchmarking"][0]
@@ -63,7 +62,7 @@ sys.path.append(os.path.abspath(root / "src/data"))
 from utils import create_directory_tree, degrees_to_meters, split_bbox
 from gee_utils import multithreaded_download
 
-def dem_from_tnm(bbox, res=1, inSR=4326, **kwargs):
+def dem_from_tnm(bbox, res=10, inSR=4326, **kwargs):
     """
     Retrieves a Digital Elevation Model (DEM) image from The National Map (TNM)
     web service.
@@ -129,7 +128,7 @@ def dem_from_tnm(bbox, res=1, inSR=4326, **kwargs):
     return dem
 
 
-def download_dem(filepath, bbox, res=1, inSR=4326, **kwargs):
+def download_dem(filepath, bbox, res=10, inSR=4326, **kwargs):
     """
     Retrieves a Digital Elevation Model (DEM) image from The National Map (TNM)
     web service.
@@ -290,7 +289,7 @@ def quad_fetch(bbox, dim=1, num_threads=None, **kwargs):
     return dem
 
 # %%
-def tpi(dem, irad=5, orad=10, res=1, norm=False):
+def tpi(dem, irad=5, orad=10, res=10, norm=False):
     """
     Produces a raster of Topographic Position Index (TPI) by fetching a Digital
     Elevation Model (DEM) from The National Map (TNM) web service.
@@ -321,16 +320,17 @@ def tpi(dem, irad=5, orad=10, res=1, norm=False):
     k_orad = orad // res
     k_irad = irad // res
 
+    # dem = np.pad(dem, k_orad, mode='constant', constant_values=-9999)
     kernel = disk(k_orad) - np.pad(disk(k_irad), pad_width=(k_orad - k_irad))
     weights = kernel / kernel.sum()
 
-    def conv(dem): return convolve(dem, weights)
+    def conv(dem): return convolve(dem, weights, mode='nearest')
 
     convolved = apply_parallel(conv, dem, compute=True, depth=k_orad)
     tpi = dem - convolved
 
     # trim the padding around the dem used to calculate TPI
-    tpi = tpi[orad // res:-orad // res, orad // res:-orad // res]
+    # tpi = tpi[orad // res:-orad // res, orad // res:-orad // res]
 
     if norm:
         tpi_mean = (dem - convolved).mean()
@@ -387,11 +387,12 @@ def infer_utm(bbox):
 # See: 
 # 1. https://stackoverflow.com/a/57677370/1913361
 # 2. https://stackoverflow.com/a/28321717/1913361
-# TODO: integrate both solutions into one decorator and move to utils.py
+# 3. https://stackoverflow.com/a/37243211/1913361
+# TODO: integrate solutions into one decorator or context manager
 class SuppressStream(object): 
-
-    def __init__(self, stream=sys.stderr):
+    def __init__(self, file=None, stream=sys.stderr):
         self.orig_stream_fileno = stream.fileno()
+        self.file = file
 
     def __enter__(self):
         self.orig_stream_dup = os.dup(self.orig_stream_fileno)
@@ -404,16 +405,28 @@ class SuppressStream(object):
         os.close(self.orig_stream_dup)
         self.devnull.close()
 
-def supress_stdout(func):
-    def wrapper(*a, **ka):
-        with open(os.devnull, 'w') as devnull:
-            with contextlib.redirect_stdout(devnull):
-                return func(*a, **ka)
-    return wrapper
+    def write(self, x):
+        # Avoid print() second call (useless \n)
+        if len(x.rstrip()) > 0:
+            tqdm.write(x, file=self.file)
+
+# def supress_stdout(func):
+#     def wrapper(*a, **ka):
+#         with open(os.devnull, 'w') as devnull:
+#             with contextlib.redirect_stdout(devnull):
+#                 return func(*a, **ka)
+#     return wrapper
+
+@contextlib.contextmanager
+def supress_stdout():
+    save_stdout = sys.stdout
+    sys.stdout = SuppressStream(sys.stdout)
+    yield
+    sys.stdout = save_stdout
 # ------
 
 # %%
-@supress_stdout
+# @supress_stdout
 def slope(dem):
     """
     Produces a raster of slope.
@@ -435,14 +448,14 @@ def slope(dem):
     # slope = np.arctan(np.sqrt(dx**2 + dy**2))
 
     # Convert ndarray to richdem.rdarray
-    rd_dem = rd.rdarray(dem, no_data=-9999)
-
     with SuppressStream():
+        rd_dem = rd.rdarray(dem, no_data=-9999)
         slope = rd.TerrainAttribute(rd_dem, attrib='slope_riserun')
 
     return np.array(slope)
 
-@supress_stdout
+
+# @supress_stdout
 def aspect(dem):
     """
     Produces a raster of aspect.
@@ -462,9 +475,8 @@ def aspect(dem):
     import richdem as rd
   
     # Convert ndarray to richdem.rdarray
-    rd_dem = rd.rdarray(dem, no_data=-9999)
-
     with SuppressStream():
+        rd_dem = rd.rdarray(dem, no_data=-9999)
         aspect = rd.TerrainAttribute(rd_dem, attrib='aspect')
 
     return np.array(aspect)
@@ -497,96 +509,187 @@ def flow_accumulation(dem):
     flow_accumulation = grid.accumulation(flow_direction)
     return np.array(flow_accumulation)
 
+# %%
+def classify_slope_position(tpi, slope):
+    """Classifies an image of normalized Topograhic Position Index into 6 slope
+    position classes:
 
-def fetch_dem(outfile, utm_bbox, utm_epsg, bbox, res=1, dim=3, overwrite=False):
-    """Fetch a Digital Elevation Model (DEM) for a given cell_id.
+    =======  ============
+    Slope #  Description
+    =======  ============
+    1        Valley
+    2        Lower Slope
+    3        Flat Slope
+    4        Middle Slope
+    5        Upper Slope
+    6        Ridge
+    =======  ============
+
+    Classification following Weiss, A. 2001. "Topographic Position and
+    Landforms Analysis." Poster presentation, ESRI User Conference, San Diego,
+    CA.  http://www.jennessent.com/downloads/tpi-poster-tnc_18x22.pdf
+
+    Parameters
+    ----------
+    tpi : array
+      TPI values, assumed to be normalized to have mean = 0 and standard
+      deviation = 1
+    slope : array
+      slope of terrain, in degrees
     """
-    assert isinstance(outfile, Path), "outfile must be a pathlib.Path object"
-    if not os.path.exists(outfile) or overwrite:
-        create_directory_tree(outfile.parent)
+    assert tpi.shape == slope.shape
+    pos = np.empty(tpi.shape, dtype=int)
 
-        PROFILE = {
-            'driver': 'GTiff',
-            'interleave': 'band',
-            'tiled': True,
-            'blockxsize': 256,
-            'blockysize': 256,
-            'compress': 'lzw',
-            'nodata': -9999,
-            'dtype': rasterio.float32
-        }    
+    pos[(tpi<=-1)] = 1
+    pos[(tpi>-1)*(tpi<-0.5)] = 2
+    pos[(tpi>-0.5)*(tpi<0.5)*(slope<=5)] = 3
+    pos[(tpi>-0.5)*(tpi<0.5)*(slope>5)] = 4
+    pos[(tpi>0.5)*(tpi<=1.0)] = 5
+    pos[(tpi>1)] = 6
 
-        p_trf = transform.from_bounds(*utm_bbox, utm_bbox[2]-utm_bbox[0], utm_bbox[-1]-utm_bbox[1]) 
+    return pos
 
-        # We'll need this to transform the data back to the original CRS
-        width = np.ceil(degrees_to_meters(bbox[2]-bbox[0]))
-        height = np.ceil(degrees_to_meters(bbox[-1]-bbox[1]))
-        trf = transform.from_bounds(*bbox, width, height) 
 
-        dem = quad_fetch(bbox=utm_bbox, dim=dim, res=res, inSR=utm_epsg, noData=-9999)
-        ## apply a smoothing filter to mitigate stitching/edge artifacts
-        dem = filters.gaussian(dem, 3)
+def classify_landform(tpi_near, tpi_far, slope):
+    """Classifies a landscape into 10 landforms given "near" and "far" values
+    of Topographic Position Index (TPI) and a slope raster.
 
-        # ---
-        # TODO: use multiprocessing to speed up this step
-        # TODO: generate maps with projected dem
-        topo_metrics = [
-            slope(dem),
-            aspect(dem),
-            flow_accumulation(dem),
-            tpi(dem, irad=15, orad=30, res=res),
-            tpi(dem, irad=180, orad=200, res=res),
-        ]
-        # ---
+    ==========  ======================================
+    Landform #   Description
+    ==========  ======================================
+    1           canyons, deeply-incised streams
+    2           midslope drainages, shallow valleys
+    3           upland drainages, headwaters
+    4           U-shape valleys
+    5           plains
+    6           open slopes
+    7           upper slopes, mesas
+    8           local ridges, hills in valleys
+    9           midslope ridges, small hills in plains
+    10          mountain tops, high ridges
+    ==========  ======================================
 
-        band_info = {
-            'dem': 'Digital Elevation Model',
-            'slope': 'Slope',
-            'aspect': 'Aspect',
-            'flowac': 'Flow Accumulation',
-            'tpi': 'Topographic Position Index',
-        }
+    Classification following Weiss, A. 2001. "Topographic Position and
+    Landforms Analysis." Poster presentation, ESRI User Conference, San Diego,
+    CA.  http://www.jennessent.com/downloads/tpi-poster-tnc_18x22.pdf
 
-        ## Reproject, generate cog, and write the data to disk
-        crs = CRS.from_epsg(4326)
-        PROFILE.update(crs=crs, transform=trf, width=width, height=height, count=len(topo_metrics)+1)
-        cog_profile = cog_profiles.get("deflate")
-        # with rasterio.open(outfile, 'w', **PROFILE) as dst:
-        with MemoryFile() as memfile:
-            with memfile.open(mode='w', **PROFILE) as dst:
-                dst_idx = 1
-                for band, data in zip(band_info.keys(), *topo_metrics):
-                    output = np.zeros(dst.shape, rasterio.float32)
-                    reproject(
-                        source=data,
-                        destination=output,
-                        src_transform=p_trf,
-                        src_crs=crs,
-                        dst_transform=trf,
-                        dst_crs=CRS.from_epsg(utm_epsg),
-                        resampling=Resampling.nearest
-                    )
-                    dst.write(output, dst_idx)
-                    dst.set_band_description(dst_idx, band_info[band])
-                    dst_idx += 1
+    Parameters
+    ----------
+    tpi_near : array
+      TPI values calculated using a smaller neighborhood, assumed to be
+      normalized to have mean = 0 and standard deviation = 1
+    tpi_far : array
+      TPI values calculated using a smaller neighborhood, assumed to be
+      normalized to have mean = 0 and standard deviation = 1
+    slope : array
+      slope of terrain, in degrees
+    """
+    assert tpi_near.shape == tpi_far.shape == slope.shape
+    lf = np.empty(tpi_near.shape, dtype=int)
+
+    lf[(tpi_near<1)*(tpi_near>-1)*(tpi_far<1)*(tpi_far>-1)*(slope<=5)] = 5
+    lf[(tpi_near<1)*(tpi_near>-1)*(tpi_far<1)*(tpi_far>-1)*(slope>5)] = 6
+    lf[(tpi_near<1)*(tpi_near>-1)*(tpi_far>=1)] = 7
+    lf[(tpi_near<1)*(tpi_near>-1)*(tpi_far<=-1)] = 4
+    lf[(tpi_near<=-1)*(tpi_far<1)*(tpi_far>-1)] = 2
+    lf[(tpi_near>=1)*(tpi_far<1)*(tpi_far>-1)] = 9
+    lf[(tpi_near<=-1)*(tpi_far>=1)] = 3
+    lf[(tpi_near<=-1)*(tpi_far<=-1)] = 1
+    lf[(tpi_near>=1)*(tpi_far>=1)] = 10
+    lf[(tpi_near>=1)*(tpi_far<=-1)] = 8
+
+    return lf
+
+# %%
+# def fetch_dem(outfile, utm_bbox, utm_epsg, bbox, res=10, dim=3, overwrite=False):
+#     """Fetch a Digital Elevation Model (DEM) for a given cell_id.
+#     """
+#     assert isinstance(outfile, Path), "outfile must be a pathlib.Path object"
+#     if not os.path.exists(outfile) or overwrite:
+#         create_directory_tree(outfile.parent)
+
+#         PROFILE = {
+#             'driver': 'GTiff',
+#             'interleave': 'band',
+#             'tiled': True,
+#             'blockxsize': 256,
+#             'blockysize': 256,
+#             'compress': 'lzw',
+#             'nodata': -9999,
+#             'dtype': rasterio.float32
+#         }    
+
+#         p_trf = transform.from_bounds(*utm_bbox, utm_bbox[2]-utm_bbox[0], utm_bbox[-1]-utm_bbox[1]) 
+
+#         # We'll need this to transform the data back to the original CRS
+#         width = np.ceil(degrees_to_meters(bbox[2]-bbox[0]))
+#         height = np.ceil(degrees_to_meters(bbox[-1]-bbox[1]))
+#         trf = transform.from_bounds(*bbox, width, height) 
+
+#         dem = quad_fetch(bbox=utm_bbox, dim=dim, res=res, inSR=utm_epsg, noData=-9999)
+#         ## apply a smoothing filter to mitigate stitching/edge artifacts
+#         dem = filters.gaussian(dem, 3)
+
+#         # ---
+#         # TODO: use multiprocessing to speed up this step
+#         # TODO: generate maps with projected dem
+#         topo_metrics = [
+#             slope(dem),
+#             aspect(dem),
+#             flow_accumulation(dem),
+#             tpi(dem, irad=15, orad=30, res=res),
+#             tpi(dem, irad=180, orad=200, res=res),
+#         ]
+#         # ---
+
+#         band_info = {
+#             'dem': 'Digital Elevation Model',
+#             'slope': 'Slope',
+#             'aspect': 'Aspect',
+#             'flowac': 'Flow Accumulation',
+#             'tpi': 'Topographic Position Index',
+#         }
+
+#         ## Reproject, generate cog, and write the data to disk
+#         crs = CRS.from_epsg(4326)
+#         PROFILE.update(crs=crs, transform=trf, width=width, height=height, count=len(topo_metrics)+1)
+#         cog_profile = cog_profiles.get("deflate")
+#         # with rasterio.open(outfile, 'w', **PROFILE) as dst:
+#         with MemoryFile() as memfile:
+#             with memfile.open(mode='w', **PROFILE) as dst:
+#                 dst_idx = 1
+#                 for band, data in zip(band_info.keys(), *topo_metrics):
+#                     output = np.zeros(dst.shape, rasterio.float32)
+#                     reproject(
+#                         source=data,
+#                         destination=output,
+#                         src_transform=p_trf,
+#                         src_crs=crs,
+#                         dst_transform=trf,
+#                         dst_crs=CRS.from_epsg(utm_epsg),
+#                         resampling=Resampling.nearest
+#                     )
+#                     dst.write(output, dst_idx)
+#                     dst.set_band_description(dst_idx, band_info[band])
+#                     dst_idx += 1
                 
-                cog_translate(
-                    dst,
-                    outfile,
-                    cog_profile,
-                    in_memory=True,
-                    quiet=True
-                )
+#                 cog_translate(
+#                     dst,
+#                     outfile,
+#                     cog_profile,
+#                     in_memory=True,
+#                     quiet=True
+#                 )
 
-        return True
+#         return True
 
-    else:
-        print(f'File {outfile.name} already exists, skipping.')
-        return False
+#     else:
+#         print(f'File {outfile.name} already exists, skipping.')
+#         return False
 
 
 # %%
-# def fetch_dems(path_to_tiles, out_dir,  res=1):
+# def fetch_dems(path_to_tiles, out_dir,  res=10):
 #     """Loop through a GeoDataFrame, fetch the relevant data, and write GeoTiffs to disk 
 #     in the appropriate formats.
 #     """
@@ -607,7 +710,75 @@ def fetch_dem(outfile, utm_bbox, utm_epsg, bbox, res=1, dim=3, overwrite=False):
 #     multithreaded_download(params, fetch_dem)
 
 
-def fetch_dems(path_to_tiles, out_dir, res=1, overwrite=False):
+def center_crop_array(new_size, array):
+    xpad, ypad = (np.subtract(array.shape, new_size)/2).astype(int)
+    dx, dy = np.subtract(new_size, array[xpad:-xpad, ypad:-ypad].shape)
+    return array[xpad:-xpad+dx, ypad:-ypad+dy]
+
+# %%
+def fetch_metadata(image_id, bands, res, out_dir='.'):
+    # id
+    # resolution
+    # properties
+    # - bands
+    # - datetime start (in seconds)
+    # crs
+    # transform
+    # bounds
+    # license for each collection
+    import requests
+    import json
+    import calendar 
+    from datetime import datetime
+
+    month_name = {month: index for index, month in enumerate(calendar.month_name) if month}
+
+    URL = 'https://elevation.nationalmap.gov/arcgis/'\
+          'rest/services/3DEPElevation/ImageServer?f=pjson'
+    r = requests.get(URL)
+    src_metadata = r.json()
+
+    metadata = {}
+    for key in src_metadata.keys():
+        if key in ['currentVersion', 'description', 'copyrightText']:
+            metadata[key] = src_metadata[key]
+
+    m, d, y = src_metadata['copyrightText']\
+                .replace(',', '')\
+                  .replace('.', '')\
+                    .split(' ')[-3:]
+    timestamp = datetime(int(y), month_name[m], int(d)).timestamp()
+    
+    _bands = [{'id': key, 'name': bands[key]} for key in bands.keys()]
+
+    metadata.update(
+        id=image_id,
+        name=' '.join(src_metadata['copyrightText'].split(' ')[:-3]),
+        resolution=res,
+        bands=_bands,
+        properties={
+            'system:time_start': int(timestamp * 1000),
+        }
+    )
+
+    with open(os.path.join(out_dir, f"{image_id}-metadata.json"), "w") as f:
+            f.write(json.dumps(metadata, indent=4))
+
+    return True
+
+# %%
+# def save_preview(image_array, image_id, out_dir='.'):
+#     from PIL import Image
+#     import matplotlib.pyplot as plt
+
+#     # cm_terrain = plt.get_cmap('terrain')
+#     # img = cm_terrain(image_array)
+#     # img = np.uint8(img * 255)
+#     img = Image.fromarray(image_array, mode='L').convert('L')
+#     img.thumbnail((512, 512))
+#     img.save(os.path.join(out_dir, f'{image_id}-preview.png'))
+
+def fetch_dems(path_to_tiles, out_dir, res=10, overwrite=False):
     """Loop through a GeoDataFrame, fetch the relevant data, and write GeoTiffs to disk 
     in the appropriate formats.
     """
@@ -625,117 +796,157 @@ def fetch_dems(path_to_tiles, out_dir, res=1, overwrite=False):
         'compress': 'lzw',
         'nodata': -9999,
         'dtype': rasterio.float32,
-        'count': 5 # set number of bands
+        # 'count': 5 # set number of bands
     }
 
     ## loop through all the geometries in the geodataframe and fetch the DEM
-    with tqdm(total=len(gdf), desc=desc, bar_format='{l_bar}{bar:20}{r_bar}{bar:-20b}') as pbar:
-        for idx in range(len(gdf)):
-            ## don't bother fetching data if we already have processed this tile
-            cell_id = gdf.loc[idx, 'CELL_ID']
-            outname = f'{cell_id}_3DEP_{res}mDEM-cog.tif'
-            outfile = root / out_dir / outname.replace('-cog.tif', '') / outname
-            
-            if os.path.exists(outfile) and not overwrite:
-                pbar.write(f"File {outname} already exists, skipping...")
+    with tqdm(total=len(gdf), desc=desc, bar_format='{l_bar}{bar:50}{r_bar}{bar:-50b}', 
+              file=sys.stdout) as pbar:
+        with supress_stdout():
+            for idx in range(len(gdf)):
+                ## don't bother fetching data if we already have processed this tile
+                cell_id = gdf.loc[idx, 'CELL_ID']
+                itemdir = f'{cell_id}_3DEP_{res}mDEM'
+                filename = f'{itemdir}-cog.tif'
+                outfile = root / out_dir / itemdir / filename
+                
+                if os.path.exists(outfile) and not overwrite:
+                    pbar.write(f"File {itemdir} already exists, skipping...")
+                    pbar.update(1)
+                    continue
+
+                pbar.write(f"Processing file {itemdir}")
+                create_directory_tree(out_dir, itemdir)
+
+                # We want to request the data in a planar coordinate system
+                # so we can calculate topographic metrics. This is to avoid
+                # distortions due to the curvature of the earth.
+                # See discussion https://gis.stackexchange.com/q/7906/72937
+                p_crs = infer_utm(gdf.loc[idx, 'geometry'].bounds)
+                geom = gdf[gdf.CELL_ID == gdf.CELL_ID[idx]].geometry.to_crs(p_crs)
+                p_bbox = geom[idx].bounds
+                p_width = np.ceil((p_bbox[2]-p_bbox[0])/res).astype(int) 
+                p_height = np.ceil((p_bbox[-1]-p_bbox[1])/res).astype(int)
+                p_trf = transform.from_bounds(*p_bbox, p_width, p_height)  # type: ignore
+
+                # Extend the AOI with a buffer to avoid edge effects
+                # when calculating topographic metrics
+                padding = int(round((p_width)//2/100))*100
+                p_buffer = geom.buffer(padding * res, join_style=2)
+                bbox_buff = p_buffer.bounds.values[0]
+
+                # Fetch DEM and apply a smoothing filter to mitigate stitching/edge artifacts
+                dem = quad_fetch(bbox=bbox_buff, dim=3, res=res, inSR=p_crs.to_epsg(), noData=-9999)
+                dem = filters.gaussian(dem, 3)
+                
+                # We'll need this to transform the data back to the original CRS
+                crs = CRS.from_epsg(4326)
+                bbox = gdf.loc[idx, 'geometry'].bounds
+                width = np.ceil(degrees_to_meters(bbox[2]-bbox[0])/res)
+                height = np.ceil(degrees_to_meters(bbox[-1]-bbox[1])/res)
+                trf = transform.from_bounds(*bbox, width, height)  # type: ignore
+
+                # ---
+                # TODO: use multiprocessing to speed up this step
+                bands=[
+                    dem,
+                    slope(dem),
+                    aspect(dem),
+                    flow_accumulation(dem),
+                    tpi(dem, irad=15, orad=30, res=res),
+                    tpi(dem, irad=180, orad=200, res=res),
+                ]
+                bands.append(
+                    classify_slope_position(bands[3], bands[0]) 
+                )   
+                bands.append(
+                    classify_landform(bands[4], bands[3], bands[0])
+                )
+
+                bands = [center_crop_array((p_height, p_width), x) for x in bands]
+                # ---
+
+                band_info = {
+                    'dem': 'Digital Elevation Model',
+                    'slope': 'Slope',
+                    'aspect': 'Aspect',
+                    'flowacc': 'Flow Accumulation',
+                    'tpi300': 'Topographic Position Index (300m)',
+                    'tpi2000': 'Topographic Position Index (2000m)',
+                    'spc300': 'Slope Position Class (300m)',
+                    'landform': 'Landform Class',
+                }
+
+                fetch_metadata(itemdir, band_info, res, out_dir / itemdir)
+                
+                ## Reproject, generate cog, and write the data to disk
+                PROFILE.update(crs=crs, transform=trf, width=width, height=height, count=len(bands)+1)
+                cog_profile = cog_profiles.get("deflate")
+
+                with MemoryFile() as memfile:
+                    with memfile.open(**PROFILE) as dst:
+                        dst_idx = 1
+                        for band, data in zip(band_info.keys(), bands):
+                            output = np.zeros(dst.shape, rasterio.float32)
+                            reproject(
+                                source=data,
+                                destination=output,
+                                src_transform=p_trf,
+                                src_crs=p_crs,
+                                dst_transform=trf,
+                                dst_crs=crs,
+                                resampling=Resampling.nearest
+                            )
+                            if band == 'dem':
+                                imgname = f'{itemdir}-preview.png'
+                                plt.imsave(out_dir / itemdir / imgname, output, cmap='gist_earth')
+                            dst.write(output, dst_idx)
+                            dst.set_band_description(dst_idx, band_info[band])
+                            dst_idx += 1
+
+                        with SuppressStream(sys.stdout):
+                            cog_translate(
+                                dst,
+                                outfile,
+                                cog_profile,
+                                in_memory=True,
+                                quiet=True
+                            )
+
                 pbar.update(1)
-                continue
-
-            pbar.write(f"Processing file {outname}")
-            create_directory_tree(out_dir, outname.replace('-cog.tif', ''))
-
-            # We want to request the data in a planar coordinate system
-            # so we can calculate topographic metrics. This is to avoid
-            # distortions due to the curvature of the earth.
-            # See discussion https://gis.stackexchange.com/q/7906/72937
-            p_crs = infer_utm(gdf.loc[idx, 'geometry'].bounds)
-            geom = gdf[gdf.CELL_ID == gdf.CELL_ID[idx]].geometry.to_crs(p_crs)
-            p_bbox = geom[idx].bounds
-            p_width = np.ceil((p_bbox[2]-p_bbox[0])/res) 
-            p_height = np.ceil((p_bbox[-1]-p_bbox[1])/res)
-            p_trf = transform.from_bounds(*p_bbox, p_width, p_height)  # type: ignore
-
-            # We'll need this to transform the data back to the original CRS
-            bbox = gdf.loc[idx, 'geometry'].bounds
-            width = np.ceil(degrees_to_meters(bbox[2]-bbox[0])/res)
-            height = np.ceil(degrees_to_meters(bbox[-1]-bbox[1])/res)
-            trf = transform.from_bounds(*bbox, width, height)  # type: ignore
-
-            dem = quad_fetch(bbox=p_bbox, dim=3, res=res, inSR=p_crs.to_epsg(), noData=-9999)
-            ## apply a smoothing filter to mitigate stitching/edge artifacts
-            dem = filters.gaussian(dem, 3)
-            
-            # ---
-            # TODO: use multiprocessing to speed up this step
-            # TODO: generate maps with projected dem
-            _slope = slope(dem)
-            _aspect = aspect(dem)
-            _flowac = flow_accumulation(dem)
-            _tpi = tpi(dem, res=res)
-            # ---
-
-            band_info = {
-                'dem': 'Digital Elevation Model',
-                'slope': 'Slope',
-                'aspect': 'Aspect',
-                'flowac': 'Flow Accumulation',
-                'tpi': 'Topographic Position Index',
-            }
-
-            ## Reproject, generate cog, and write the data to disk
-            crs = CRS.from_epsg(4326)
-            PROFILE.update(crs=crs, transform=trf, width=width, height=height)
-            cog_profile = cog_profiles.get("deflate")
-            # with rasterio.open(outfile, 'w', **PROFILE) as dst:
-            with MemoryFile() as memfile:
-                with memfile.open(**PROFILE) as dst:
-                    dst_idx = 1
-                    for band, data in zip(band_info.keys(), [dem, _slope, _aspect, _flowac, _tpi]):
-                        output = np.zeros(dst.shape, rasterio.float32)
-                        reproject(
-                            source=data,
-                            destination=output,
-                            src_transform=p_trf,
-                            src_crs=p_crs,
-                            dst_transform=trf,
-                            dst_crs=crs,
-                            resampling=Resampling.nearest
-                        )
-                        dst.write(output, dst_idx)
-                        dst.set_band_description(dst_idx, band_info[band])
-                        dst_idx += 1
-                   
-                    cog_translate(
-                        dst,
-                        outfile,
-                        cog_profile,
-                        nodata=-9999,
-                        in_memory=True,
-                        quiet=True
-                    )
-
-            pbar.update(1)
-
-def fetch_metadata(path_to_tiles, out_dir, overwrite=False):
-    # id
-    # name
-    # datetime start
-    # datetime end
-    # crs
-    # transform
-    # bounds
-    # bands
-    # license for each collection
-    pass
 
 
+# %%
 if __name__ == '__main__':
     WORK_DIR = 'data/external/usfs_stands'
-    OUT_DIR = 'data/raw'
+    OUT_DIR = 'data/processed'
     OR_QUADS = 'oregon_quarter_quads_sample.geojson'
     out_path = create_directory_tree(OUT_DIR, '3DEP')
 
     fetch_dems(path_to_tiles=os.path.join(WORK_DIR, OR_QUADS), res=10,
                out_dir=out_path, overwrite=True)
+
+# %%
+# WORK_DIR = '../../data/external/usfs_stands/'
+# OUT_DIR = 'data/processed'
+# OR_QUADS = 'oregon_quarter_quads_sample.geojson'
+
+# gdf = gpd.read_file(WORK_DIR + OR_QUADS)
+# bbox = gdf.loc[0, 'geometry'].bounds
+# p_crs = infer_utm(bbox)
+# cell_id = gdf.loc[0, "CELL_ID"]
+# p_geom = gdf[gdf.CELL_ID == 108243].geometry.to_crs(p_crs)[0]
+# p_bbox = p_geom.bounds
+# xmin, ymin, xmax, ymax = p_bbox
+# res = 10
+# padding = int(round((xmax-xmin)/res//2/100))*100
+# w = int((xmax-xmin)//res)
+# h = int((ymax-ymin)//res)
+# p_buffer = p_geom.buffer(padding * res, join_style=2)
+# bbox_buff = p_buffer.bounds
+# dem = dem_from_tnm(bbox_buff, res=res, dim=3, inSR=p_crs.to_epsg())
+# xpad, ypad = (np.subtract(dem.shape, (h, w))/2).astype(int)
+# dx, dy = np.abs(np.subtract((h, w), dem[xpad:-xpad, ypad:-ypad].shape))
+# dem[xpad:-xpad-dx, ypad:-ypad-dy].shape
 
 # %%
