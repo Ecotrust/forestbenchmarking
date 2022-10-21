@@ -2,7 +2,6 @@
 from pathlib import Path
 import os
 import sys
-import json
 
 import numpy as np
 import geopandas as gpd
