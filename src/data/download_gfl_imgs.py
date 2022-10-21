@@ -2,6 +2,7 @@
 from pathlib import Path
 import os
 import sys
+from datetime import datetime
 
 import numpy as np
 import geopandas as gpd
@@ -61,10 +62,15 @@ def get_gflandsat(
         start_date, end_date
     )
 
+    ts_start = datetime.timestamp(datetime.strptime(start_date, "%Y-%m-%d"))
+    ts_end = datetime.timestamp(datetime.strptime(end_date, "%Y-%m-%d"))
+
     bbox = ee.Geometry.BBox(*bbox)
     image = GEEImageLoader(collection.median().clip(bbox))
     # Set image metadata and params
     image.metadata_from_collection(collection)
+    image.set_property("system:time_start", ts_start * 1000)
+    image.set_property("system:time_end", ts_end * 1000)
     image.set_params("scale", scale)
     image.set_params("crs", f"EPSG:{epsg}")
     image.set_params("region", bbox)
