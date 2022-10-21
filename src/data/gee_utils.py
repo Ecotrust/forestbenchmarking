@@ -2,7 +2,6 @@
 """
 import os
 import json
-
 from zipfile import ZipFile
 from io import BytesIO
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -203,9 +202,7 @@ class GEEImageLoader:
         if collection_info.get("properties"):
             properties = collection_info.get("properties")
         else:
-            assert (
-                len(collection_info.get("features")) > 1
-            ), "Collection has only one feature or is empty."
+            assert (len(collection_info.get("features")) > 1), "Collection has only one feature or is empty."
             properties = collection_info.get("features")[0].get("properties")
 
         features = collection_info.get("features")
