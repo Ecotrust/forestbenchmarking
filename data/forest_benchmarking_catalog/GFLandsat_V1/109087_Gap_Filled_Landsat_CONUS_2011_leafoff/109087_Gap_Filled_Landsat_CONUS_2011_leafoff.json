@@ -1,0 +1,115 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "id": "109087_Gap_Filled_Landsat_CONUS_2011_leafoff",
+  "properties": {
+    "eo:bands": [
+      {
+        "name": "B1_mean_post"
+      },
+      {
+        "name": "P1_postSD"
+      },
+      {
+        "name": "B2_mean_post"
+      },
+      {
+        "name": "P2_postSD"
+      },
+      {
+        "name": "B3_mean_post"
+      },
+      {
+        "name": "P3_postSD"
+      },
+      {
+        "name": "B4_mean_post"
+      },
+      {
+        "name": "P4_postSD"
+      },
+      {
+        "name": "B5_mean_post"
+      },
+      {
+        "name": "P5_postSD"
+      },
+      {
+        "name": "B7_mean_post"
+      },
+      {
+        "name": "P7_postSD"
+      }
+    ],
+    "datetime": "2010-10-01T04:00:00Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -119.25000108819435,
+          43.937498396822996
+        ],
+        [
+          -119.25000108819435,
+          43.99999831187511
+        ],
+        [
+          -119.31250104402771,
+          43.99999831187511
+        ],
+        [
+          -119.31250104402771,
+          43.937498396822996
+        ],
+        [
+          -119.25000108819435,
+          43.937498396822996
+        ]
+      ]
+    ]
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json",
+      "title": "STAC implementation for modelling and benchmarking forest attributes"
+    },
+    {
+      "rel": "collection",
+      "href": "../collection.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "parent",
+      "href": "../collection.json",
+      "type": "application/json"
+    }
+  ],
+  "assets": {
+    "image": {
+      "href": "https://raw.githubusercontent.com/Ecotrust/forestbenchmarking/main/data/processed/GFLandsat_V1/2011/109087_Gap_Filled_Landsat_CONUS_2011_leafoff/109087_Gap_Filled_Landsat_CONUS_2011_leafoff-cog.tif",
+      "type": "image/tiff; application=geotiff; profile=cloud-optimized"
+    },
+    "metadata": {
+      "href": "https://raw.githubusercontent.com/Ecotrust/forestbenchmarking/main/data/processed/GFLandsat_V1/2011/109087_Gap_Filled_Landsat_CONUS_2011_leafoff/109087_Gap_Filled_Landsat_CONUS_2011_leafoff-metadata.json",
+      "type": "application/json"
+    },
+    "thumbnail": {
+      "href": "https://raw.githubusercontent.com/Ecotrust/forestbenchmarking/main/data/processed/GFLandsat_V1/2011/109087_Gap_Filled_Landsat_CONUS_2011_leafoff/109087_Gap_Filled_Landsat_CONUS_2011_leafoff-preview.png",
+      "type": "image/png"
+    }
+  },
+  "bbox": [
+    -119.31250104402771,
+    43.937498396822996,
+    -119.25000108819435,
+    43.99999831187511
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/eo/v1.0.0/schema.json"
+  ],
+  "collection": "GFLandsat_V1"
+}

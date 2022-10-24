@@ -109700,6 +109700,14 @@
     },
     {
       "rel": "source",
+      "href": "../../GFLandsat_V1/108244_Gap_Filled_Landsat_CONUS_2011_leafoff/108244_Gap_Filled_Landsat_CONUS_2011_leafoff.json",
+      "type": "application/json",
+      "label:assets": [
+        "image"
+      ]
+    },
+    {
+      "rel": "source",
       "href": "../../GFLandsat_V1/108244_Gap_Filled_Landsat_CONUS_2011_leafon/108244_Gap_Filled_Landsat_CONUS_2011_leafon.json",
       "type": "application/json",
       "label:assets": [
